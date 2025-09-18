@@ -23,9 +23,6 @@ export default function Hero() {
         </svg>
       </div>
   <div className="relative z-10 text-center glass-card rounded-3xl shadow-2xl px-4 sm:px-8 py-4 sm:py-8 w-full max-w-[980px] mx-auto animate-fade-in">
-        <div className="mx-auto mb-4 w-24 sm:w-32">
-          <Image src="/techv-logo.png" alt="Zestro Logo" width={128} height={128} className="drop-shadow-md" />
-        </div>
   <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold text-[var(--zestro-blue-900)] drop-shadow mb-3 sm:mb-5 animate-fade-in">Zestro</h1>
   <h2 className="text-base sm:text-xl md:text-2xl font-semibold text-[color:rgba(15,23,42,0.9)] mb-3 sm:mb-6 animate-fade-in">The Future of Restaurant Management — Coming Soon</h2>
   <p className="text-sm sm:text-base text-[color:rgba(15,23,42,0.8)] mb-6 sm:mb-8 animate-fade-in">A bold new platform built to streamline operations, delight customers, and empower teams. Sign up for early access.</p>
