@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fffaf6;
+  --foreground: #1b1b1b;
 }
 
 
@@ -20,26 +20,30 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 :root{
-  --blue-700: #0b61b3;
-  --blue-600: #1976d2;
-  --background: linear-gradient(180deg,#eaf6ff 0%,#ffffff 100%);
+  --background: linear-gradient(180deg,#fff7f2 0%,#ffffff 100%);
   --foreground: #0f172a;
+  --zestro-primary: #ff5a1a;
+  --zestro-orange-700: #ff5a1a;
+  --zestro-orange-600: #ff7a3a;
+  --zestro-orange-800: #a63f00;
+  --zestro-orange-900: #7b2b00;
+  --zestro-accent: #ffb86b;
 }
 :root{
-  --zestro-blue-900: #083e7a;
-  --zestro-blue-800: #0b4f9a;
-  --zestro-blue-700: #0b61b3;
-  --zestro-blue-600: #1976d2;
-  --zestro-accent: #3fb1ff;
+  --zestro-blue-900: #7b2b00; /* kept aliases for compatibility */
+  --zestro-blue-800: #a63f00;
+  --zestro-blue-700: #ff5a1a;
+  --zestro-blue-600: #ff7a3a;
+  --zestro-accent: #ffb86b;
 }
 
 /* Buttons */
-.btn-primary { background: linear-gradient(90deg,var(--zestro-blue-600),var(--zestro-blue-700)); color: white; padding: .6rem 1rem; border-radius: .75rem; box-shadow: 0 6px 18px rgba(11,97,179,0.18); }
+.btn-primary { background: linear-gradient(90deg,var(--zestro-orange-600),var(--zestro-orange-700)); color: white; padding: .6rem 1rem; border-radius: .75rem; box-shadow: 0 6px 18px rgba(255,90,26,0.18); }
 .btn-primary:hover { transform: translateY(-2px); }
-.btn-outline { border: 1px solid rgba(11,97,179,0.12); color: var(--zestro-blue-800); padding: .6rem 1rem; border-radius: .75rem; }
+.btn-outline { border: 1px solid rgba(255,90,26,0.12); color: var(--zestro-orange-800); padding: .6rem 1rem; border-radius: .75rem; }
 
 /* Glass helpers */
-.glass-card { background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.35)); backdrop-filter: blur(8px); border: 1px solid rgba(11,97,179,0.08); }
+.glass-card { background: linear-gradient(180deg, rgba(255,255,255,0.65), rgba(255,255,255,0.4)); backdrop-filter: blur(8px); border: 1px solid rgba(255,90,26,0.08); }
 @keyframes fade-in-up {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
@@ -53,6 +57,11 @@ body {
 
 .animate-fade-in { animation: fade-in-up 0.7s ease both; }
 .animate-gradient-x { animation: gradient-x 8s ease infinite; background-size: 200% 200%; }
+
+/* hero background using CSS variables so it matches the logo color */
+.hero-bg { background: linear-gradient(135deg, rgba(255,122,58,0.10) 0%, rgba(255,184,107,0.06) 50%, rgba(255,255,255,1) 100%); }
+
+.hero-gradient { background: linear-gradient(90deg, var(--zestro-primary), rgba(255,122,58,0.6)); }
 
 /* Responsive container helper */
 .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }

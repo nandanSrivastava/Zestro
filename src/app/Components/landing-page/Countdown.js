@@ -34,7 +34,7 @@ export default function Countdown({target}){
     return (
       <div className="flex gap-3 justify-center items-center text-center text-white flex-wrap">
         {[['Days', '--'], ['Hours', '--'], ['Minutes', '--'], ['Seconds', '--']].map(([label, value])=> (
-          <div key={label} className="bg-blue-700/90 px-3 py-2 sm:px-4 sm:py-3 rounded-lg shadow-lg min-w-[64px]">
+          <div key={label} className="bg-[color:var(--zestro-orange-700)]/90 px-3 py-2 sm:px-4 sm:py-3 rounded-lg shadow-lg min-w-[64px]" style={{boxShadow: '0 6px 18px rgba(255,90,26,0.18)'}}>
             <div className="text-lg sm:text-2xl font-bold">{value}</div>
             <div className="text-xs sm:text-sm opacity-80">{label}</div>
           </div>
@@ -48,7 +48,7 @@ export default function Countdown({target}){
   return (
     <div className="flex gap-3 justify-center items-center text-center text-white flex-wrap">
       {[['Days', timeLeft.days], ['Hours', timeLeft.hours], ['Minutes', timeLeft.minutes], ['Seconds', timeLeft.seconds]].map(([label, value])=> (
-        <div key={label} className="bg-blue-700/90 px-3 py-2 sm:px-4 sm:py-3 rounded-lg shadow-lg min-w-[64px]">
+        <div key={label} className="bg-[color:var(--zestro-orange-700)]/90 px-3 py-2 sm:px-4 sm:py-3 rounded-lg shadow-lg min-w-[64px]" style={{boxShadow: '0 6px 18px rgba(255,90,26,0.18)'}}>
           <div className="text-lg sm:text-2xl font-bold">{value}</div>
           <div className="text-xs sm:text-sm opacity-80">{label}</div>
         </div>
