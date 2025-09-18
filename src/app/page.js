@@ -3,6 +3,7 @@ import Header from "./Components/landing-page/Header";
 import Hero from "./Components/landing-page/Hero";
 import Features from "./Components/landing-page/Features";
 import Testimonials from "./Components/landing-page/Testimonials";
+import Pricing from "./Components/landing-page/Pricing";
 import Contact from "./Components/landing-page/Contact";
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
@@ -20,11 +21,12 @@ export const metadata = {
 
 export default function Page() {
   return (
-    <main className="bg-gradient-to-br from-blue-50 via-white to-blue-50 min-h-screen w-full">
+  <main className="min-h-screen w-full" style={{background: 'var(--background)'}}>
       <Header />
       <Hero />
-      <Features />
-      <Testimonials />
+  <Features />
+  <Pricing />
+  <Testimonials />
       <Contact />
     </main>
   );
