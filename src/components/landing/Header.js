@@ -2,14 +2,19 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import WaitlistModal from "./WaitlistModal";
+import WaitlistModal from "../ui/WaitlistModal";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
   return (
     <header className="w-full py-3 px-4 sm:px-6 flex items-center justify-between bg-[var(--zestro-accent)] sticky top-0 z-50">
       <div className="flex items-center gap-4">
-        <Image src="/zestro-logo.png" alt="Zestro" width={100} height={100} />
+        <Image
+          src="/images/zestro-logo.png"
+          alt="Zestro"
+          width={100}
+          height={100}
+        />
       </div>
       <nav className="hidden md:flex items-center gap-4">
         <a href="#features" className="text-white hover:underline">
