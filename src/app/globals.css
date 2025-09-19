@@ -5,8 +5,6 @@
   --foreground: #1b1b1b;
 }
 
-
-
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -19,19 +17,26 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
-* { box-sizing: border-box; }
-img { max-width: 100%; height: auto; display: block; }
-:root{
-  --background: linear-gradient(180deg,#fff7f2 0%,#ffffff 100%);
+* {
+  box-sizing: border-box;
+}
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+:root {
+  --background: linear-gradient(180deg, #fff7f2 0%, #ffffff 100%);
   --foreground: #0f172a;
   --zestro-primary: #ff5a1a;
+  --zestro-orange-200: #fff2ea;
   --zestro-orange-700: #ff5a1a;
   --zestro-orange-600: #ff7a3a;
   --zestro-orange-800: #a63f00;
   --zestro-orange-900: #7b2b00;
   --zestro-accent: #ffb86b;
 }
-:root{
+:root {
   --zestro-blue-900: #7b2b00; /* kept aliases for compatibility */
   --zestro-blue-800: #a63f00;
   --zestro-blue-700: #ff5a1a;
@@ -40,50 +45,222 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 /* Buttons */
-.btn-primary { background: linear-gradient(90deg,var(--zestro-orange-600),var(--zestro-orange-700)); color: white; padding: .6rem 1rem; border-radius: .75rem; box-shadow: 0 6px 18px rgba(255,90,26,0.18); }
-.btn-primary:hover { transform: translateY(-2px); }
-.btn-outline { border: 1px solid rgba(255,90,26,0.12); color: var(--zestro-orange-800); padding: .6rem 1rem; border-radius: .75rem; }
+.btn-primary {
+  background: linear-gradient(
+    90deg,
+    var(--zestro-orange-600),
+    var(--zestro-orange-700)
+  );
+  color: white;
+  padding: 0.6rem 1rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 6px 18px rgba(255, 90, 26, 0.18);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+}
+.btn-outline {
+  border: 1px solid rgba(255, 90, 26, 0.12);
+  color: var(--zestro-orange-800);
+  padding: 0.6rem 1rem;
+  border-radius: 0.75rem;
+}
+.btn-outline:hover {
+  background: var(--zestro-orange-600);
+  transform: translateY(-2px);
+  color: white;
+}
 
 /* Glass helpers */
-.glass-card { background: linear-gradient(180deg, rgba(255,255,255,0.65), rgba(255,255,255,0.4)); backdrop-filter: blur(8px); border: 1px solid rgba(255,90,26,0.08); }
+.glass-card {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.65),
+    rgba(255, 255, 255, 0.4)
+  );
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 90, 26, 0.08);
+}
 @keyframes fade-in-up {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes gradient-x {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
-.animate-fade-in { animation: fade-in-up 0.7s ease both; }
-.animate-gradient-x { animation: gradient-x 8s ease infinite; background-size: 200% 200%; }
+.animate-fade-in {
+  animation: fade-in-up 0.7s ease both;
+}
+.animate-gradient-x {
+  animation: gradient-x 8s ease infinite;
+  background-size: 200% 200%;
+}
 
 /* hero background using CSS variables so it matches the logo color */
-.hero-bg { background: linear-gradient(135deg, rgba(255,122,58,0.10) 0%, rgba(255,184,107,0.06) 50%, rgba(255,255,255,1) 100%); }
+.hero-bg {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 122, 58, 0.1) 0%,
+    rgba(255, 184, 107, 0.06) 50%,
+    rgba(255, 255, 255, 1) 100%
+  );
+}
 
-.hero-gradient { background: linear-gradient(90deg, var(--zestro-primary), rgba(255,122,58,0.6)); }
+.hero-gradient {
+  background: linear-gradient(
+    90deg,
+    var(--zestro-primary),
+    rgba(255, 122, 58, 0.6)
+  );
+}
 
 /* Responsive container helper */
-.container { max-width: 1280px; margin: 0 auto; padding: 0 1rem; }
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
 
 @media (max-width: 768px) {
-  .container { padding: 0 0.75rem; }
+  .container {
+    padding: 0 0.75rem;
+  }
 }
 
 @media (min-width: 1280px) {
-  .container { max-width: 1400px; }
+  .container {
+    max-width: 1400px;
+  }
 }
 
 /* Make hero responsive */
-.hero-section { min-height: calc(100vh - 64px); }
-.hero-logo { width: 180px; height: auto; }
+.hero-section {
+  min-height: calc(100vh - 64px);
+}
+.hero-logo {
+  width: 180px;
+  height: auto;
+}
 @media (min-width: 768px) {
-  .hero-logo { width: 240px; }
+  .hero-logo {
+    width: 240px;
+  }
 }
 
-@media (max-width: 640px){
-  h1 { font-size: 1.6rem; }
-  h2 { font-size: 1.05rem; }
+@media (max-width: 640px) {
+  h1 {
+    font-size: 1.6rem;
+  }
+  h2 {
+    font-size: 1.05rem;
+  }
+
+  /* Ensure hero fills the full mobile viewport and remove extra vertical padding */
+  .hero-section {
+    min-height: 100vh;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
 }
+
+/* Footer */
+.zestro-footer {
+  padding: 1.5rem 0;
+  border-top: 1px solid rgba(15, 23, 42, 0.06);
+  background: linear-gradient(180deg, rgba(255, 250, 248, 0.5), transparent);
+}
+.footer-inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+.footer-content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.footer-left {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.875rem;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.footer-by {
+  font-size: 0.92rem;
+  color: rgba(15, 23, 42, 0.65);
+  font-weight: 600;
+}
+.footer-note {
+  font-size: 0.85rem;
+  color: rgba(15, 23, 42, 0.55);
+  margin: 0 0 0 0.5rem;
+}
+.footer-right {
+  display: flex;
+  align-items: center;
+}
+.footer-nav {
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.footer-nav a {
+  color: rgba(15, 23, 42, 0.7);
+  text-decoration: none;
+  font-size: 0.95rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+}
+.footer-nav a:hover,
+.footer-nav a:focus {
+  color: var(--zestro-orange-800);
+  background: rgba(255, 90, 26, 0.04);
+  text-decoration: none;
+}
+
+@media (max-width: 640px) {
+  .footer-inner {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .footer-left {
+    flex-direction: column;
+    align-items: center;
+  }
+  .brand {
+    justify-content: center;
+  }
+  .footer-note {
+    margin: 0;
+  }
+  .footer-nav {
+    margin-top: 0.75rem;
+  }
+}
+
+/* Note: dialog-specific styles were moved into a component-scoped CSS module */
