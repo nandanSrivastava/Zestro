@@ -168,18 +168,168 @@ img {
 }
 
 @media (max-width: 640px) {
-  h1 {
-    font-size: 1.6rem;
-  }
-  h2 {
-    font-size: 1.05rem;
-  }
+  /* Scoped mobile adjustments only for hero-section to avoid affecting other pages */
 
-  /* Ensure hero fills the full mobile viewport and remove extra vertical padding */
   .hero-section {
     min-height: 100vh;
     padding-top: 0;
     padding-bottom: 0;
+    justify-content: flex-start;
+    align-items: stretch;
+  }
+
+  .hero-section .glass-card {
+    border-radius: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.98),
+      rgba(255, 255, 255, 0.96)
+    );
+    box-shadow: none;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    /* fill viewport minus header area (~64px) */
+    min-height: calc(100svh - 64px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.04);
+    border-top: 1px solid rgba(255, 255, 255, 0.6);
+  }
+
+  .hero-section .hero-logo {
+    width: 220px;
+    max-width: 70%;
+    margin-top: 6px;
+    margin-bottom: 6px;
+  }
+
+  /* Tighter, more prominent top area for logo and intro text on mobile */
+  .hero-section .glass-card {
+    /* place content slightly higher so top doesn't feel empty */
+    padding-top: 1rem;
+    padding-bottom: 1.25rem;
+    justify-content: flex-start;
+  }
+
+  .hero-section .glass-card h1 {
+    margin-bottom: 0.25rem;
+    filter: none; /* remove heavy drop-shadow on small screens */
+    font-size: 1.15rem;
+  }
+
+  .hero-section .glass-card h1 .hero-logo {
+    width: 160px;
+    max-width: 58%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* keep headline compact and readable: limit line length, slightly larger weight */
+  .hero-section .glass-card h2 {
+    font-size: 1.02rem;
+    line-height: 1.28;
+    font-weight: 700;
+    margin-top: 0.3rem;
+    margin-bottom: 0.5rem;
+    max-width: 86%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero-section .glass-card p {
+    font-size: 0.95rem;
+    margin-bottom: 0.75rem;
+    max-width: 88%;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 0.88;
+  }
+
+  /* Larger internal spacing between hero items on mobile */
+  .hero-section .glass-card > * {
+    padding-top: 0.9rem;
+    padding-bottom: 0.9rem;
+  }
+
+  .hero-section .glass-card .btn-primary {
+    padding: 0.95rem 1.4rem;
+    font-size: 1.03rem;
+    border-radius: 999px;
+  }
+
+  .hero-section .animate-fade-in > * {
+    margin-bottom: 0.6rem;
+  }
+
+  /* Reduce default heading margins inside the hero card on mobile */
+  .hero-section .glass-card h1,
+  .hero-section .glass-card h2,
+  .hero-section .glass-card p {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Make countdown and launch text breathe more */
+  .hero-section .glass-card .text-2xl,
+  .hero-section .glass-card .mx-auto {
+    margin-top: 0.6rem;
+    margin-bottom: 0.6rem;
+  }
+
+  /* Countdown unit sizing / layout on very small screens */
+  .hero-section .time-unit {
+    min-width: 78px;
+    padding: 1.05rem 0.95rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 22px rgba(255, 90, 26, 0.16);
+  }
+
+  .hero-section .time-unit .text-lg {
+    font-size: 1.5rem;
+  }
+
+  .hero-section .time-unit .text-xs {
+    font-size: 0.78rem;
+  }
+
+  /* Bigger logo and type for stronger visual hierarchy inside hero */
+  .hero-section .glass-card h1 .hero-logo {
+    width: 180px;
+  }
+
+  .hero-section .glass-card h2 {
+    font-size: 1.15rem;
+    line-height: 1.25;
+    color: rgba(15, 23, 42, 0.95);
+    margin-bottom: 0.6rem;
+  }
+
+  .hero-section .glass-card p {
+    font-size: 0.98rem;
+    color: rgba(15, 23, 42, 0.78);
+    margin-bottom: 0.75rem;
+  }
+
+  .hero-section .glass-card .text-2xl {
+    font-size: 2rem;
+    letter-spacing: -0.5px;
+  }
+
+  /* Ensure 'Launching soon' text uses the orange theme color on mobile */
+  .hero-section .glass-card .launching-soon {
+    color: var(--zestro-orange-900) !important;
+  }
+
+  /* Emphasize intro paragraph on small screens */
+  .hero-section .glass-card .intro-mobile-theme {
+    color: var(--zestro-primary);
+    font-size: 1.05rem;
+    line-height: 1.4;
+    font-weight: 600;
+    text-align: center;
   }
 }
 

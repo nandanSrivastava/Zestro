@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Countdown from "./Countdown";
 import WaitlistModal from "../ui/WaitlistModal";
@@ -16,9 +16,16 @@ function nextMonth21() {
 
 export default function Hero() {
   const [isOpen, setIsOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [target, setTarget] = useState(null);
+
+  useEffect(() => {
+    setMounted(true);
+    setTarget(nextMonth21());
+  }, []);
 
   return (
-    <section className="relative w-full hero-section flex flex-col justify-center items-center hero-bg overflow-hidden py-4">
+    <section className="relative w-full hero-section flex flex-col justify-center items-center hero-bg overflow-hidden py-2 sm:py-4">
       <div className="absolute inset-0 z-0 animate-gradient-x">
         <svg
           width="100%"
@@ -35,41 +42,61 @@ export default function Hero() {
         </svg>
       </div>
 
-      <div className="relative z-10 text-center glass-card rounded-3xl shadow-2xl px-4 sm:px-8 py-4 sm:py-8 w-full max-w-[980px] mx-auto animate-fade-in">
-        <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold drop-shadow mb-3 sm:mb-5 animate-fade-in">
-          <span className="sr-only">Zestro</span>
-          <Image
-            src="/zestro-logo.png"
-            alt="Zestro"
-            width={240}
-            height={72}
-            className="mx-auto hero-logo"
-          />
-        </h1>
+      <div className="relative z-10 text-center glass-card rounded-none sm:rounded-3xl shadow-none sm:shadow-2xl px-4 sm:px-8 py-6 sm:py-8 w-full max-w-none sm:max-w-[980px] mx-auto animate-fade-in flex flex-col justify-center gap-1 sm:gap-6">
+        <div className="animate-fade-in">
+          <div className="mx-auto mb-3 sm:mb-2">
+            <Image
+              src="/images/zestro-logo.png"
+              alt="Zestro"
+              width={240}
+              height={72}
+              className="mx-auto hero-logo"
+              style={{ height: "auto" }}
+            />
+          </div>
 
-        <h2 className="text-base sm:text-xl md:text-2xl font-semibold text-[color:rgba(15,23,42,0.9)] mb-3 sm:mb-6 animate-fade-in">
-          The Future of Restaurant Management — Coming Soon
-        </h2>
-
-        <p className="text-sm sm:text-base text-[color:rgba(15,23,42,0.8)] mb-6 sm:mb-8 animate-fade-in">
-          A new platform built to streamline operations, delight customers, and
-          empower teams.
+          <h1 className="text-lg sm:text-2xl md:text-3xl font-semibold drop-shadow mb-1 sm:mb-4 leading-tight mt-3 sm:mt-0">
+            The Future of Restaurant Management — Coming Soon
+          </h1>
+        </div>
+        <p className="intro-mobile-theme text-base sm:text-base mb-6 sm:mb-8 animate-fade-in font-serif">
+          A new platform <br className="block sm:hidden" /> built to streamline
+          operations,
+          <br className="block sm:hidden" /> delight customers, and
+          <br className="block sm:hidden" /> empower teams.
         </p>
 
         <div className="flex flex-col gap-6 justify-center mb-8 animate-fade-in">
           <div className="text-center">
-            <p className="text-2xl font-serif hover:scale-105 text-[var(--zestro-orange-800)] font-extrabold mb-3">
+            <p className="launching-soon text-2xl font-serif hover:scale-105 text-[var(--zestro-orange-800)] font-extrabold mb-3">
               Launching soon
             </p>
             <div className="mx-auto mb-2">
-              <Countdown target={nextMonth21()} />
+              {mounted && target ? (
+                <Countdown target={target} />
+              ) : (
+                <div className="flex gap-3 justify-center items-center text-center text-white">
+                  <div className="time-unit bg-[color:var(--zestro-orange-700)]/90 px-3 py-2 rounded-lg min-w-[64px]">
+                    --
+                  </div>
+                  <div className="time-unit bg-[color:var(--zestro-orange-700)]/90 px-3 py-2 rounded-lg min-w-[64px]">
+                    --
+                  </div>
+                  <div className="time-unit bg-[color:var(--zestro-orange-700)]/90 px-3 py-2 rounded-lg min-w-[64px]">
+                    --
+                  </div>
+                  <div className="time-unit bg-[color:var(--zestro-orange-700)]/90 px-3 py-2 rounded-lg min-w-[64px]">
+                    --
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
           <div className="flex justify-center">
             <button
               type="button"
-              className="btn-primary"
+              className="btn-primary text-base sm:text-base"
               onClick={() => setIsOpen(true)}
             >
               Join waitlist

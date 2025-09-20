@@ -1,6 +1,6 @@
 "use client";
 
-import React, { memo } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { useCountdown } from "../../hooks/useCountdown";
 
 /**
@@ -11,7 +11,7 @@ import { useCountdown } from "../../hooks/useCountdown";
  */
 const TimeUnit = memo(({ value, label }) => (
   <div
-    className="bg-[color:var(--zestro-orange-700)]/90 px-3 py-2 sm:px-4 sm:py-3 rounded-lg shadow-lg min-w-[64px]"
+    className="time-unit bg-[color:var(--zestro-orange-700)]/90 px-3 py-2 sm:px-4 sm:py-3 rounded-lg shadow-lg min-w-[64px]"
     style={{ boxShadow: "0 6px 18px rgba(255,90,26,0.18)" }}
   >
     <div className="text-lg sm:text-2xl font-bold text-white">
