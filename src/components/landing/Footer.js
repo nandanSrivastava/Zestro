@@ -7,7 +7,12 @@ export default function Footer() {
         <div className="footer-content">
           <div className="brand">
             <span className="footer-by">A product by</span>
-            <Image src="/techv-logo.png" alt="TechV" width={120} height={28} />
+            <Image
+              src="/images/techv-logo.png"
+              alt="TechV"
+              width={120}
+              height={28}
+            />
           </div>
         </div>
       </div>

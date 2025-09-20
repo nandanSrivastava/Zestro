@@ -7,7 +7,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { submitWaitlist, WaitlistError } from "../../../lib/waitlistClient";
+import { submitWaitlist, WaitlistError } from "../../lib/waitlistClient";
 import styles from "./WaitlistModal.module.css";
 
 /* ------------------ UTILITIES ------------------ */

@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Countdown from "./Countdown";
-import WaitlistModal from "./WaitlistModal";
+import WaitlistModal from "../ui/WaitlistModal";
 
 function nextMonth21() {
   const now = new Date();
@@ -14,22 +14,11 @@ function nextMonth21() {
   return new Date(Date.UTC(targetYear, targetMonth, 21, 0, 0, 0));
 }
 
-function validateEmail(email) {
-  // Simple, practical validation — not exhaustive
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
-
-function validatePhone(phone) {
-  // Allow digits, spaces, +, -, (), min 7 digits
-  const digits = phone.replace(/[^0-9]/g, "");
-  return digits.length >= 7;
-}
-
 export default function Hero() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <section className="relative w-full hero-section flex flex-col justify-center items-center hero-bg overflow-hidden py-4 ">
+    <section className="relative w-full hero-section flex flex-col justify-center items-center hero-bg overflow-hidden py-4">
       <div className="absolute inset-0 z-0 animate-gradient-x">
         <svg
           width="100%"
@@ -63,8 +52,8 @@ export default function Hero() {
         </h2>
 
         <p className="text-sm sm:text-base text-[color:rgba(15,23,42,0.8)] mb-6 sm:mb-8 animate-fade-in">
-          A new platform built to streamline operations, delight customers,
-          and empower teams.
+          A new platform built to streamline operations, delight customers, and
+          empower teams.
         </p>
 
         <div className="flex flex-col gap-6 justify-center mb-8 animate-fade-in">
