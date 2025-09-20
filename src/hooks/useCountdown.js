@@ -11,43 +11,43 @@ import { useState, useEffect } from "react";
 export function useCountdown(targetDate, options = {}) {
   const { autoStart = true, onComplete } = options;
 
-  const [timeLeft, setTimeLeft] = useState(() => {
-    const target = new Date(targetDate).getTime();
-    const now = new Date().getTime();
-    return Math.max(0, target - now);
-  });
+  // Initialize to 0 for SSR to avoid hydratation mismatches; compute actual value on client
+  const [timeLeft, setTimeLeft] = useState(() => 0);
 
   const [isActive, setIsActive] = useState(autoStart);
   const [isComplete, setIsComplete] = useState(false);
 
+  // compute initial timeLeft on client mount or when targetDate changes
   useEffect(() => {
-    let intervalId = null;
+    const targetInit = new Date(targetDate).getTime();
+    const nowInit = Date.now();
+    setTimeLeft(Math.max(0, targetInit - nowInit));
+  }, [targetDate]);
 
-    if (isActive && timeLeft > 0) {
-      intervalId = setInterval(() => {
-        const target = new Date(targetDate).getTime();
-        const now = new Date().getTime();
-        const difference = target - now;
+  // interval to update timeLeft when active
+  useEffect(() => {
+    if (!isActive) return;
 
-        if (difference > 0) {
-          setTimeLeft(difference);
-        } else {
-          setTimeLeft(0);
-          setIsActive(false);
-          setIsComplete(true);
-          if (onComplete) {
-            onComplete();
-          }
+    const intervalId = setInterval(() => {
+      const target = new Date(targetDate).getTime();
+      const now = Date.now();
+      const difference = target - now;
+
+      if (difference > 0) {
+        setTimeLeft(difference);
+      } else {
+        setTimeLeft(0);
+        setIsActive(false);
+        setIsComplete(true);
+        if (onComplete) {
+          onComplete();
         }
-      }, 1000);
-    }
-
-    return () => {
-      if (intervalId) {
         clearInterval(intervalId);
       }
-    };
-  }, [isActive, targetDate, timeLeft, onComplete]);
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [isActive, targetDate, onComplete]);
 
   // Calculate time units
   const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
