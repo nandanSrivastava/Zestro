@@ -1,0 +1,69 @@
+.root {
+  display: flex;
+}
+
+.main {
+  margin-left: 220px; /* match sidebar width when expanded */
+  padding: 2rem;
+  width: 100%;
+  min-height: 100vh;
+  background: var(--background);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.cardTitle {
+  font-size: 0.85rem;
+  color: var(--muted, #cbd5e1);
+}
+
+.cardValue {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-top: 0.5rem;
+}
+
+.tableSection {
+  margin-top: 1rem;
+}
+
+.sectionTitle {
+  font-size: 1.05rem;
+  margin-bottom: 0.5rem;
+}
+
+.tablePlaceholder {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px dashed rgba(255, 255, 255, 0.03);
+  padding: 2rem;
+  border-radius: 8px;
+  color: var(--muted, #94a3b8);
+}
+
+.actions > :not(:first-child) {
+  margin-left: 0.5rem;
+}
