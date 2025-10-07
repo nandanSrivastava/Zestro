@@ -13,26 +13,58 @@ export const FEATURES_DATA = [
   {
     id: "order",
     title: "Order Management",
-    description: "Track dine-in, takeout, and delivery orders seamlessly.",
+    description:
+      "Create and manage dine-in, takeaway and delivery orders with modifiers and notes.",
     category: "operations",
+  },
+  {
+    id: "tables",
+    title: "Table & Floorplan Integration",
+    description:
+      "Visual floorplan, table assignments and QR-based table ordering for faster service.",
+    category: "operations",
+  },
+  {
+    id: "menu",
+    title: "Menu & Product Management",
+    description:
+      "Add products, categories, modifiers and pricing; bulk onboarding tools for menus.",
+    category: "catalog",
   },
   {
     id: "inventory",
     title: "Inventory Control",
-    description: "Monitor stock levels and receive alerts for low inventory.",
+    description:
+      "Track stock levels, manage suppliers, and receive low-stock alerts.",
     category: "management",
   },
   {
     id: "staff",
-    title: "Staff Scheduling",
-    description: "Manage shifts, payroll, and staff performance easily.",
+    title: "Staff Scheduling & Roles",
+    description:
+      "Shift scheduling, role-based access and simple payroll exports.",
     category: "hr",
   },
   {
+    id: "payments",
+    title: "Payments & Billing",
+    description:
+      "Flexible billing: split bills, accept card & digital payments, and print receipts.",
+    category: "payments",
+  },
+  {
     id: "analytics",
-    title: "Analytics & Reports",
-    description: "Gain insights into sales, trends, and customer preferences.",
+    title: "Reporting & Analytics",
+    description:
+      "Sales reports, trends, and actionable insights to grow revenue.",
     category: "insights",
+  },
+  {
+    id: "integrations",
+    title: "Integrations & Branding",
+    description:
+      "Connect POS, accounting tools, and apply custom branding or white-labeling.",
+    category: "platform",
   },
 ];
 

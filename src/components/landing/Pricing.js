@@ -15,8 +15,8 @@ export default function Pricing() {
           {PRICING_CONFIG.subtitle}
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
-          {PRICING_TIERS.map((tier) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+          {PRICING_TIERS.filter((t) => t.id !== "free").map((tier) => (
             <PricingCard key={tier.id} tier={tier} />
           ))}
         </div>
