@@ -33,59 +33,93 @@ function PriceDisplay({ price, actualPrice, freq }) {
       ? Math.round(((actualNum - priceNum) / actualNum) * 100)
       : null;
 
-  if (priceNum) {
-    return (
-      <div className="pricing-display">
-        {/* Main Price - Stacked layout for narrow space */}
-        <div className="text-center lg:text-left mb-2">
-          <div className="flex items-baseline justify-center lg:justify-start gap-1">
-            <span className="text-xl lg:text-lg font-bold text-white/90">
-              {currency}
-            </span>
-            <span className="text-4xl lg:text-4xl font-black text-white leading-none">
-              {formatNumberIndia(priceNum)}
-            </span>
-            {freq && (
-              <span className="text-base lg:text-base text-white/80 font-medium">
-                {freq}
-              </span>
-            )}
-          </div>
-        </div>
-
-        {/* Discount Badge */}
-        {discount && (
-          <div className="flex justify-center lg:justify-start mb-2">
-            <span className="inline-flex items-center gap-1 bg-white/25 backdrop-blur-sm text-white text-sm font-bold px-3 py-1.5 rounded-full border border-white/30">
-              <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                <path
-                  fillRule="evenodd"
-                  d="M3.293 9.707a1 1 0 010-1.414l6-6a1 1 0 011.414 0l6 6a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L4.707 9.707a1 1 0 01-1.414 0z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              Save {discount}%
-            </span>
-          </div>
-        )}
-
-        {/* Regular Price */}
-        {actualPrice && (
-          <div className="text-center lg:text-left">
-            <div className="text-sm lg:text-xs text-white/70 mb-1 w-max mx-auto lg:mx-0">
-              Regular price:
-            </div>
-            <div className="text-base lg:text-sm text-white/80 line-through font-medium w-max mx-auto lg:mx-0">
-              {actualPrice}
-            </div>
-          </div>
-        )}
-      </div>
-    );
+  if (!priceNum) {
+    return null;
   }
 
-  // If price isn't a parsable number (e.g. 'Custom'), don't render the large price block.
-  return null;
+  return (
+    <div className="pricing-display">
+      {/* Main Price - Stacked layout for narrow space */}
+      <div className="text-center lg:text-left mb-2">
+        <div className="flex items-baseline justify-center lg:justify-start gap-1">
+          <span className="text-xl lg:text-lg font-bold text-white/90">
+            {currency}
+          </span>
+          <span className="text-4xl lg:text-4xl font-black text-white leading-none">
+            {formatNumberIndia(priceNum)}
+          </span>
+          {freq && (
+            <span className="text-base lg:text-base text-white/80 font-medium">
+              {freq}
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* Discount Badge */}
+      {discount && (
+        <div className="flex justify-center lg:justify-start mb-2">
+          <span className="inline-flex items-center gap-1 bg-white/25 backdrop-blur-sm text-white text-sm font-bold px-3 py-1.5 rounded-full border border-white/30">
+            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fillRule="evenodd"
+                d="M3.293 9.707a1 1 0 010-1.414l6-6a1 1 0 011.414 0l6 6a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L4.707 9.707a1 1 0 01-1.414 0z"
+                clipRule="evenodd"
+              />
+            </svg>
+            Save {discount}%
+          </span>
+        </div>
+      )}
+
+      {/* Regular Price */}
+      {actualPrice && (
+        <div className="text-center lg:text-left">
+          <div className="text-sm lg:text-xs text-white/70 mb-1 w-max mx-auto lg:mx-0">
+            Regular price:
+          </div>
+          <div className="text-base lg:text-sm text-white/80 line-through font-medium w-max mx-auto lg:mx-0">
+            {actualPrice}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function PlanOptionCard({
+  type,
+  price,
+  frequency,
+  description,
+  buttonText,
+  buttonClass,
+  isRecommended = false,
+}) {
+  return (
+    <div className="relative group">
+      <div className="absolute -inset-0.5 bg-gradient-to-r from-[var(--zestro-orange-600)] to-[var(--zestro-orange-700)] rounded-2xl blur opacity-0 group-hover:opacity-25 transition duration-300"></div>
+      <div className="relative p-6 rounded-2xl bg-white/95 group-hover:bg-gradient-to-br group-hover:from-white/95 group-hover:to-[var(--zestro-orange-200)]/30 backdrop-blur-sm text-center border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 transform group-hover:scale-[1.02]">
+        <div className="mb-3">
+          <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-black bg-gradient-to-r from-[var(--zestro-orange-600)] to-[var(--zestro-orange-700)] text-white shadow-lg">
+            {type}
+          </span>
+        </div>
+        <div className="mb-1">
+          <span className="text-2xl font-black text-slate-800">{price}</span>
+          <span className="text-sm text-slate-600 font-semibold">
+            {frequency}
+          </span>
+        </div>
+        <div className="text-xs text-slate-600 mb-4 font-medium">
+          {description}
+        </div>
+        <button type="button" className={buttonClass}>
+          {buttonText}
+        </button>
+      </div>
+    </div>
+  );
 }
 
 function ProOptions() {
@@ -101,60 +135,67 @@ function ProOptions() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-4">
-        <div className="relative group">
-          <div className="absolute -inset-0.5 bg-gradient-to-r from-[var(--zestro-orange-600)] to-[var(--zestro-orange-700)] rounded-2xl blur opacity-0 group-hover:opacity-25 transition duration-300"></div>
-          <div className="relative p-6 rounded-2xl bg-white/95 group-hover:bg-gradient-to-br group-hover:from-white/95 group-hover:to-[var(--zestro-orange-200)]/30 backdrop-blur-sm text-center border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 transform group-hover:scale-[1.02]">
-            <div className="mb-3">
-              <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-black bg-gradient-to-r from-[var(--zestro-orange-600)] to-[var(--zestro-orange-700)] text-white shadow-lg">
-                🎉 FREE TRIAL
-              </span>
-            </div>
-            <div className="mb-1">
-              <span className="text-2xl font-black text-slate-800">₹1,500</span>
-              <span className="text-sm text-slate-600 font-semibold">
-                /month
-              </span>
-            </div>
-            <div className="text-xs text-slate-600 mb-4 font-medium">
-              Your First 3 Months Are On Us! Enjoy now, subscribe later.
-            </div>
-            <button
-              type="button"
-              className="btn-outline w-full rounded-full py-3 font-bold text-sm shadow-lg hover:shadow-xl transition-all duration-300"
-            >
-              Start Free Trial
-            </button>
-          </div>
-        </div>
-
-        <div className="relative group">
-          <div className="absolute -inset-0.5 bg-gradient-to-r from-[var(--zestro-orange-600)] to-[var(--zestro-orange-700)] rounded-2xl blur opacity-0 group-hover:opacity-25 transition duration-300"></div>
-          <div className="relative p-6 rounded-2xl bg-white/95 group-hover:bg-gradient-to-br group-hover:from-white/95 group-hover:to-[var(--zestro-orange-200)]/30 backdrop-blur-sm text-center border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 transform group-hover:scale-[1.02]">
-            <div className="mb-3">
-              <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-black bg-gradient-to-r from-[var(--zestro-orange-600)] to-[var(--zestro-orange-700)] text-white shadow-lg">
-                💰 BEST VALUE
-              </span>
-            </div>
-            <div className="mb-1">
-              <span className="text-2xl font-black text-slate-800">₹1,000</span>
-              <span className="text-sm text-slate-600 font-semibold">
-                /month
-              </span>
-            </div>
-            <div className="text-xs text-slate-600 mb-4 font-medium">
-              Best Deal: Unlock 6 Months by Paying for Just 3!
-            </div>
-            <button
-              type="button"
-              className="btn-primary w-full rounded-full py-3 font-bold text-sm hover:shadow-lg transition-all duration-300 border-[var(--zestro-orange-400)] text-[var(--zestro-orange-700)]"
-            >
-              Buy 6-Month Plan
-            </button>
-          </div>
-        </div>
+        <PlanOptionCard
+          type="🎉 FREE TRIAL"
+          price="₹1,500"
+          frequency="/month"
+          description="Your First 3 Months Are On Us! Enjoy now, subscribe later."
+          buttonText="Start Free Trial"
+          buttonClass="btn-outline w-full rounded-full py-3 font-bold text-sm shadow-lg hover:shadow-xl transition-all duration-300"
+        />
+        <PlanOptionCard
+          type="💰 BEST VALUE"
+          price="₹1,000"
+          frequency="/month"
+          description="Best Deal: Unlock 6 Months by Paying for Just 3!"
+          buttonText="Buy 6-Month Plan"
+          buttonClass="btn-primary w-full rounded-full py-3 font-bold text-sm hover:shadow-lg transition-all duration-300 border-[var(--zestro-orange-400)] text-[var(--zestro-orange-700)]"
+          isRecommended={true}
+        />
       </div>
     </div>
   );
+}
+
+function TierTitle({ tier }) {
+  const getTitleClasses = () => {
+    if (tier.id === "enterprise") {
+      return "text-xl lg:text-2xl";
+    }
+    return tier.badge || tier.id === "pro"
+      ? "text-2xl lg:text-4xl"
+      : "text-2xl lg:text-3xl";
+  };
+
+  if (tier.id === "enterprise") {
+    const name = String(tier.name || "");
+    const regex = /(\(Enterprise Edition\))/i;
+    const parts = name.split(regex).filter(Boolean);
+
+    return (
+      <>
+        {parts.map((part, index) =>
+          regex.test(part) ? (
+            <span
+              key={index}
+              className="block text-sm lg:text-base font-semibold"
+            >
+              {part.trim()}
+            </span>
+          ) : (
+            <span
+              key={index}
+              className="block text-2xl lg:text-4xl font-black leading-tight"
+            >
+              {part.trim()}
+            </span>
+          )
+        )}
+      </>
+    );
+  }
+
+  return tier.name;
 }
 
 /* ------------------ CTA button style map ------------------ */
@@ -167,7 +208,7 @@ const CTA_CLASS_MAP = {
 /**
  * PricingCard
  */
-const PricingCard = memo(({ tier, index }) => {
+function useCardStyles(tier) {
   const isHighlighted = Boolean(tier.badge || tier.id === "pro");
   const ctaClass =
     CTA_CLASS_MAP[tier.cta?.variant || tier.cta?.type] || "btn-outline";
@@ -179,26 +220,38 @@ const PricingCard = memo(({ tier, index }) => {
   const outlineExtra =
     "bg-white/90 backdrop-blur-sm border-2 border-[var(--zestro-orange-300)] text-[var(--zestro-orange-700)] hover:border-[var(--zestro-orange-500)] hover:shadow-lg";
   const isFilledAccent = ctaClass === "btn-primary";
+
   const buttonClass = `${ctaClass} ${baseBtnClasses} ${
     isFilledAccent ? accentExtra : outlineExtra
   }`;
 
-  // Use theme-colored left background for the enterprise (Infiny) card
-  // Base solid backgrounds - gradients will be applied on hover via group-hover classes
   const leftBgClass =
-    tier.id === "enterprise"
-      ? "bg-[var(--zestro-orange-700)]"
-      : isHighlighted
+    tier.id === "enterprise" || isHighlighted
       ? "bg-[var(--zestro-orange-700)]"
       : "bg-white";
-
-  // Text color: white for highlighted, slate for normal; normal cards switch to white on hover
-  const leftTextClass = isHighlighted ? "text-white" : "text-white";
-
+  const leftTextClass = "text-white";
   const leftHoverGradient =
     tier.id === "enterprise" || isHighlighted
       ? "group-hover:bg-gradient-to-br group-hover:from-[var(--zestro-orange-700)] group-hover:to-[var(--zestro-orange-600)]"
       : "group-hover:bg-gradient-to-br group-hover:from-white group-hover:to-[var(--zestro-orange-50)]";
+
+  return {
+    isHighlighted,
+    buttonClass,
+    leftBgClass,
+    leftTextClass,
+    leftHoverGradient,
+  };
+}
+
+const PricingCard = memo(({ tier, index }) => {
+  const {
+    isHighlighted,
+    buttonClass,
+    leftBgClass,
+    leftTextClass,
+    leftHoverGradient,
+  } = useCardStyles(tier);
 
   return (
     <article
@@ -236,46 +289,9 @@ const PricingCard = memo(({ tier, index }) => {
             <div className="space-y-2">
               <h3
                 id={`tier-${tier.id}-title`}
-                className={`${
-                  tier.id === "enterprise"
-                    ? "text-xl lg:text-2xl"
-                    : isHighlighted
-                    ? "text-2xl lg:text-4xl"
-                    : "text-2xl lg:text-3xl"
-                } font-black tracking-tight leading-tight text-center lg:text-left`}
+                className="font-black tracking-tight leading-tight text-center lg:text-left"
               >
-                {tier.id === "enterprise"
-                  ? // Ensure the "(Enterprise Edition)" part is always on its own line
-                    (() => {
-                      const name = String(tier.name || "");
-                      const regex = /(\(Enterprise Edition\))/i;
-                      const parts = name.split(regex).filter(Boolean);
-                      // parts will be like ["Zestro Infiny ", "(Enterprise Edition)",]
-                      return (
-                        <>
-                          {parts.map((p, i) =>
-                            regex.test(p) ? (
-                              // edition label — smaller and on its own line
-                              <span
-                                key={i}
-                                className="block text-sm lg:text-base font-semibold"
-                              >
-                                {p.trim()}
-                              </span>
-                            ) : (
-                              // main product name — larger to emphasize
-                              <span
-                                key={i}
-                                className="block text-2xl lg:text-4xl font-black leading-tight"
-                              >
-                                {p.trim()}
-                              </span>
-                            )
-                          )}
-                        </>
-                      );
-                    })()
-                  : tier.name}
+                <TierTitle tier={tier} />
               </h3>
               {tier.badge && (
                 <div className="flex justify-center lg:justify-start">
