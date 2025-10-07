@@ -7,12 +7,6 @@ import {
   StaffIcon,
   AnalyticsIcon,
 } from "../ui/Icons";
-import {
-  TableIcon,
-  MenuIcon,
-  PaymentsIcon,
-  IntegrationsIcon,
-} from "../ui/Icons";
 import { FEATURES_DATA, FEATURES_CONFIG } from "../../utils/featuresData";
 
 // Map feature IDs to their corresponding icons
@@ -21,29 +15,17 @@ const FEATURE_ICONS = {
   inventory: InventoryIcon,
   staff: StaffIcon,
   analytics: AnalyticsIcon,
-  tables: TableIcon,
-  menu: MenuIcon,
-  payments: PaymentsIcon,
-  integrations: IntegrationsIcon,
 };
 
 /**
- * Features grid: show clear, distinct product features for people to read.
+ * Legacy/auxiliary Features grid (moved from Features.js)
  */
-const Features = memo(() => {
+const FeaturesGrid = memo(() => {
   return (
-    <section
-      id="features"
-      className="container py-16 sm:py-20 bg-[var(--background)]"
-    >
-      <header className="mb-8 text-center mt-3">
-        <h2 className="text-3xl sm:text-4xl font-extrabold text-[var(--zestro-orange-700)]">
-          Our Product features
-        </h2>
-        <p className="mt-3 text-sm text-slate-600 max-w-2xl mx-auto">
-          The core capabilities your restaurant team will use every day.
-        </p>
-      </header>
+    <section id="features-grid" className="container py-16 sm:py-20">
+      <p className="mt-5 text-center text-[var(--zestro-orange-600)] max-w-3xl mx-auto mb-8 font-bold font-sans text-xl sm:text-2xl">
+        {FEATURES_CONFIG.subtitle}
+      </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         {FEATURES_DATA.map((feature) => {
@@ -56,10 +38,17 @@ const Features = memo(() => {
             >
               <div className="relative z-10 flex flex-col items-center">
                 <div className="mb-4">{IconComponent && <IconComponent />}</div>
-                <h4 className="font-bold text-lg sm:text-xl mb-2 text-[var(--zestro-orange-700)]">
+                <h4
+                  className={
+                    "font-bold mb-2 text-[var(--zestro-orange-700)] w-full px-3 truncate whitespace-nowrap text-center " +
+                    "text-lg sm:text-xl md:text-2xl"
+                  }
+                  title={feature.title}
+                >
                   {feature.title}
                 </h4>
-                <p className="text-[color:rgba(15,23,42,0.85)] text-center text-base sm:text-lg">
+
+                <p className="text-[color:rgba(15,23,42,0.85)] text-center text-sm sm:text-base md:text-lg w-full px-3 break-words leading-relaxed">
                   {feature.description}
                 </p>
               </div>
@@ -71,6 +60,6 @@ const Features = memo(() => {
   );
 });
 
-Features.displayName = "Features";
+FeaturesGrid.displayName = "FeaturesGrid";
 
-export default Features;
+export default FeaturesGrid;

@@ -35,7 +35,7 @@ export const PRICING_TIERS = [
   {
     id: "pro",
     name: "Zestro-Pro",
-    price: "₹1,499",
+    price: "₹1,999",
     actualPrice: "₹2,999",
     freq: "/month",
     perks: [
@@ -57,7 +57,7 @@ export const PRICING_TIERS = [
   },
   {
     id: "enterprise",
-    name: "Zestro Infiny (Enterprise)",
+    name: "Zestro Infiny (Enterprise Edition)",
     price: "Custom",
     actualPrice: null,
     freq: null,
