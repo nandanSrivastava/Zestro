@@ -57,7 +57,7 @@ export const PRICING_TIERS = [
   },
   {
     id: "enterprise",
-    name: "Zestro Infiny (Enterprise)",
+    name: "Zestro Infiny (Enterprise Edition)",
     price: "Custom",
     actualPrice: null,
     freq: null,

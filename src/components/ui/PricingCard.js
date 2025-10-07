@@ -2,7 +2,6 @@
 
 import React, { memo } from "react";
 
-/* ------------------------- Helpers ------------------------- */
 function parseCurrencyValue(value) {
   if (value == null) return null;
   const digits = String(value).replace(/[^0-9]/g, "");
@@ -25,7 +24,6 @@ function formatNumberIndia(n) {
   }
 }
 
-/* ----------------------- Presentational --------------------- */
 function PriceDisplay({ price, actualPrice, freq }) {
   const priceNum = parseCurrencyValue(price);
   const actualNum = parseCurrencyValue(actualPrice);
@@ -86,20 +84,8 @@ function PriceDisplay({ price, actualPrice, freq }) {
     );
   }
 
-  return (
-    <div className="pricing-display text-center lg:text-left">
-      <div className="flex items-baseline justify-center lg:justify-start gap-1 mb-1">
-        <div className="text-3xl lg:text-4xl font-black text-white leading-none">
-          {price}
-        </div>
-        {freq && (
-          <div className="text-sm lg:text-base text-white/80 font-medium ml-1">
-            {freq}
-          </div>
-        )}
-      </div>
-    </div>
-  );
+  // If price isn't a parsable number (e.g. 'Custom'), don't render the large price block.
+  return null;
 }
 
 function ProOptions() {
@@ -116,10 +102,10 @@ function ProOptions() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-4">
         <div className="relative group">
-          <div className="absolute -inset-0.5 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-300"></div>
-          <div className="relative p-6 rounded-2xl bg-gradient-to-br from-white/95 to-green-50/80 backdrop-blur-sm border-2 border-green-200 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]">
+          <div className="absolute -inset-0.5 bg-gradient-to-r from-[var(--zestro-orange-600)] to-[var(--zestro-orange-700)] rounded-2xl blur opacity-0 group-hover:opacity-25 transition duration-300"></div>
+          <div className="relative p-6 rounded-2xl bg-white/95 group-hover:bg-gradient-to-br group-hover:from-white/95 group-hover:to-[var(--zestro-orange-200)]/30 backdrop-blur-sm text-center border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 transform group-hover:scale-[1.02]">
             <div className="mb-3">
-              <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-black bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-lg">
+              <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-black bg-gradient-to-r from-[var(--zestro-orange-600)] to-[var(--zestro-orange-700)] text-white shadow-lg">
                 🎉 FREE TRIAL
               </span>
             </div>
@@ -130,11 +116,11 @@ function ProOptions() {
               </span>
             </div>
             <div className="text-xs text-slate-600 mb-4 font-medium">
-              3 months completely free, then monthly billing
+              Your First 3 Months Are On Us! Enjoy now, subscribe later.
             </div>
             <button
               type="button"
-              className="btn-primary w-full rounded-full py-3 font-bold text-sm shadow-lg hover:shadow-xl transition-all duration-300"
+              className="btn-outline w-full rounded-full py-3 font-bold text-sm shadow-lg hover:shadow-xl transition-all duration-300"
             >
               Start Free Trial
             </button>
@@ -142,8 +128,8 @@ function ProOptions() {
         </div>
 
         <div className="relative group">
-          <div className="absolute -inset-0.5 bg-gradient-to-r from-[var(--zestro-orange-600)] to-[var(--zestro-orange-700)] rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-300"></div>
-          <div className="relative p-6 rounded-2xl bg-gradient-to-br from-white/95 to-[var(--zestro-orange-200)]/30 backdrop-blur-sm border-2 border-[var(--zestro-orange-300)] text-center hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]">
+          <div className="absolute -inset-0.5 bg-gradient-to-r from-[var(--zestro-orange-600)] to-[var(--zestro-orange-700)] rounded-2xl blur opacity-0 group-hover:opacity-25 transition duration-300"></div>
+          <div className="relative p-6 rounded-2xl bg-white/95 group-hover:bg-gradient-to-br group-hover:from-white/95 group-hover:to-[var(--zestro-orange-200)]/30 backdrop-blur-sm text-center border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 transform group-hover:scale-[1.02]">
             <div className="mb-3">
               <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-black bg-gradient-to-r from-[var(--zestro-orange-600)] to-[var(--zestro-orange-700)] text-white shadow-lg">
                 💰 BEST VALUE
@@ -156,11 +142,11 @@ function ProOptions() {
               </span>
             </div>
             <div className="text-xs text-slate-600 mb-4 font-medium">
-              Pay for 3 months now, get 6 months total
+              Best Deal: Unlock 6 Months by Paying for Just 3!
             </div>
             <button
               type="button"
-              className="btn-outline w-full rounded-full py-3 font-bold text-sm hover:shadow-lg transition-all duration-300 border-[var(--zestro-orange-400)] text-[var(--zestro-orange-700)]"
+              className="btn-primary w-full rounded-full py-3 font-bold text-sm hover:shadow-lg transition-all duration-300 border-[var(--zestro-orange-400)] text-[var(--zestro-orange-700)]"
             >
               Buy 6-Month Plan
             </button>
@@ -198,20 +184,29 @@ const PricingCard = memo(({ tier, index }) => {
   }`;
 
   // Use theme-colored left background for the enterprise (Infiny) card
+  // Base solid backgrounds - gradients will be applied on hover via group-hover classes
   const leftBgClass =
     tier.id === "enterprise"
-      ? "bg-gradient-to-br from-[var(--zestro-orange-700)] to-[var(--zestro-orange-600)]"
+      ? "bg-[var(--zestro-orange-700)]"
       : isHighlighted
-      ? "bg-gradient-to-br from-[var(--zestro-orange-700)] to-[var(--zestro-orange-600)]"
-      : "bg-gradient-to-br from-slate-700 to-slate-600";
+      ? "bg-[var(--zestro-orange-700)]"
+      : "bg-white";
+
+  // Text color: white for highlighted, slate for normal; normal cards switch to white on hover
+  const leftTextClass = isHighlighted ? "text-white" : "text-white";
+
+  const leftHoverGradient =
+    tier.id === "enterprise" || isHighlighted
+      ? "group-hover:bg-gradient-to-br group-hover:from-[var(--zestro-orange-700)] group-hover:to-[var(--zestro-orange-600)]"
+      : "group-hover:bg-gradient-to-br group-hover:from-white group-hover:to-[var(--zestro-orange-50)]";
 
   return (
     <article
       aria-labelledby={`tier-${tier.id}-title`}
       className={`group relative rounded-3xl overflow-hidden transition-all duration-500 transform hover:scale-[1.02] ${
         isHighlighted
-          ? "shadow-2xl shadow-[var(--zestro-orange-600)]/25 ring-2 ring-[var(--zestro-orange-300)] bg-gradient-to-br from-white to-[var(--zestro-orange-200)]/20"
-          : "shadow-xl shadow-slate-300/50 bg-white"
+          ? "shadow-2xl shadow-[var(--zestro-orange-600)]/25 ring-[var(--zestro-orange-300)] bg-white group-hover:bg-gradient-to-br group-hover:from-white group-hover:to-[var(--zestro-orange-200)]/20"
+          : "shadow-sm shadow-slate-200/80 bg-white border border-slate-100"
       }`}
       style={{
         animationDelay: `${index * 0.2}s`,
@@ -220,7 +215,8 @@ const PricingCard = memo(({ tier, index }) => {
     >
       {/* Enhanced glow effect for highlighted card */}
       {isHighlighted && (
-        <div className="absolute -inset-2 bg-gradient-to-r from-[var(--zestro-orange-500)] via-[var(--zestro-orange-600)] to-[var(--zestro-orange-500)] rounded-3xl blur-2xl opacity-20 group-hover:opacity-30 transition-opacity duration-700"></div>
+        // Glow is hidden by default and fades in on hover
+        <div className="absolute -inset-2 bg-gradient-to-r from-[var(--zestro-orange-500)] via-[var(--zestro-orange-600)] to-[var(--zestro-orange-500)] rounded-3xl blur-2xl opacity-0 group-hover:opacity-20 transition-opacity duration-700"></div>
       )}
 
       {/* Card Content - Horizontal Layout */}
@@ -229,7 +225,7 @@ const PricingCard = memo(({ tier, index }) => {
         <div
           className={`${
             isHighlighted ? "lg:flex-[3]" : "flex-1"
-          } w-full p-8 lg:p-10 text-center lg:text-left ${leftBgClass} text-white relative overflow-hidden flex flex-col items-center lg:items-start justify-center lg:rounded-l-3xl`}
+          } w-full p-8 lg:p-10 text-center lg:text-left ${leftBgClass} ${leftHoverGradient} ${leftTextClass} relative overflow-hidden flex flex-col items-center lg:items-start justify-center lg:rounded-l-3xl`}
         >
           {/* Decorative elements - smaller for compact layout */}
           {/* Removed top-right circular blur to avoid visual rounding of orange edge */}
@@ -241,12 +237,45 @@ const PricingCard = memo(({ tier, index }) => {
               <h3
                 id={`tier-${tier.id}-title`}
                 className={`${
-                  isHighlighted
+                  tier.id === "enterprise"
+                    ? "text-xl lg:text-2xl"
+                    : isHighlighted
                     ? "text-2xl lg:text-4xl"
                     : "text-2xl lg:text-3xl"
                 } font-black tracking-tight leading-tight text-center lg:text-left`}
               >
-                {tier.name}
+                {tier.id === "enterprise"
+                  ? // Ensure the "(Enterprise Edition)" part is always on its own line
+                    (() => {
+                      const name = String(tier.name || "");
+                      const regex = /(\(Enterprise Edition\))/i;
+                      const parts = name.split(regex).filter(Boolean);
+                      // parts will be like ["Zestro Infiny ", "(Enterprise Edition)",]
+                      return (
+                        <>
+                          {parts.map((p, i) =>
+                            regex.test(p) ? (
+                              // edition label — smaller and on its own line
+                              <span
+                                key={i}
+                                className="block text-sm lg:text-base font-semibold"
+                              >
+                                {p.trim()}
+                              </span>
+                            ) : (
+                              // main product name — larger to emphasize
+                              <span
+                                key={i}
+                                className="block text-2xl lg:text-4xl font-black leading-tight"
+                              >
+                                {p.trim()}
+                              </span>
+                            )
+                          )}
+                        </>
+                      );
+                    })()
+                  : tier.name}
               </h3>
               {tier.badge && (
                 <div className="flex justify-center lg:justify-start">
@@ -300,7 +329,7 @@ const PricingCard = memo(({ tier, index }) => {
         <div
           className={`${
             isHighlighted ? "lg:flex-[7]" : "flex-1"
-          } p-8 lg:p-10 flex flex-col justify-center bg-gradient-to-br from-white/95 to-white/80 backdrop-blur-sm rounded-b-3xl lg:rounded-r-3xl`}
+          } p-8 lg:p-10 flex flex-col justify-center bg-white/95 group-hover:bg-gradient-to-br group-hover:from-white/95 group-hover:to-white/80 backdrop-blur-sm rounded-b-3xl lg:rounded-r-3xl`}
         >
           {tier.id === "pro" ? (
             <ProOptions />
