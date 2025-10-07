@@ -19,14 +19,14 @@ export const FEATURES_DATA = [
   },
   {
     id: "tables",
-    title: "Table & Floorplan Integration",
+    title: "Table & Floorplan",
     description:
       "Visual floorplan, table assignments and QR-based table ordering for faster service.",
     category: "operations",
   },
   {
     id: "menu",
-    title: "Menu & Product Management",
+    title: "Product Management",
     description:
       "Add products, categories, modifiers and pricing; bulk onboarding tools for menus.",
     category: "catalog",
