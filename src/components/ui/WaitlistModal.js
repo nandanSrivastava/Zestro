@@ -221,53 +221,55 @@ export default function WaitlistModal({ open, onClose }) {
         </button>
 
         {/* Header */}
-        <div className={styles.header}>
-          <div className={styles.headerInner}>
-            <h3 id="waitlist-title" className={styles.title}>
-              Join the waitlist
-            </h3>
-            <p className={styles.subtitle}>
-              Get early access — we'll notify you when we launch.
-            </p>
+        <div className={styles.content}>
+          <div className={`${styles.header} ${styles.headerSticky}`}>
+            <div className={styles.headerInner}>
+              <h3 id="waitlist-title" className={styles.title}>
+                Join the waitlist
+              </h3>
+              <p className={styles.subtitle}>
+                Get early access — we'll notify you when we launch.
+              </p>
+            </div>
           </div>
+
+          {/* Body */}
+          {success ? (
+            <SuccessPanel onClose={onClose} />
+          ) : (
+            <form onSubmit={handleSubmit} className={styles.form}>
+              <InputField
+                name="name"
+                label="Name"
+                placeholder="Your full name"
+                inputMode="text"
+                inputRef={firstRef}
+                value={form.name}
+                onChange={setField}
+              />
+              <InputField
+                name="phone"
+                label="Phone"
+                placeholder="e.g. +1 555 555 5555"
+                inputMode="tel"
+                value={form.phone}
+                onChange={setField}
+              />
+              <InputField
+                name="email"
+                label="Email"
+                placeholder="you@company.com"
+                inputMode="email"
+                value={form.email}
+                onChange={setField}
+              />
+
+              {error && <div className={styles.error}>{error}</div>}
+
+              <ActionRow onCancel={onClose} loading={loading} />
+            </form>
+          )}
         </div>
-
-        {/* Body */}
-        {success ? (
-          <SuccessPanel onClose={onClose} />
-        ) : (
-          <form onSubmit={handleSubmit} className={styles.form}>
-            <InputField
-              name="name"
-              label="Name"
-              placeholder="Your full name"
-              inputMode="text"
-              inputRef={firstRef}
-              value={form.name}
-              onChange={setField}
-            />
-            <InputField
-              name="phone"
-              label="Phone"
-              placeholder="e.g. +1 555 555 5555"
-              inputMode="tel"
-              value={form.phone}
-              onChange={setField}
-            />
-            <InputField
-              name="email"
-              label="Email"
-              placeholder="you@company.com"
-              inputMode="email"
-              value={form.email}
-              onChange={setField}
-            />
-
-            {error && <div className={styles.error}>{error}</div>}
-
-            <ActionRow onCancel={onClose} loading={loading} />
-          </form>
-        )}
       </div>
     </div>
   );
