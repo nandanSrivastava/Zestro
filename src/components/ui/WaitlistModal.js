@@ -7,6 +7,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { createPortal } from "react-dom";
 import { submitWaitlist, WaitlistError } from "../../lib/waitlistClient";
 import styles from "./WaitlistModal.module.css";
 
@@ -185,7 +186,7 @@ export default function WaitlistModal({ open, onClose }) {
 
   if (!open) return null;
 
-  return (
+  const modal = (
     <div className={styles.container}>
       <div className={styles.backdrop} onClick={onClose} aria-hidden="true" />
 
@@ -273,4 +274,6 @@ export default function WaitlistModal({ open, onClose }) {
       </div>
     </div>
   );
+
+  return createPortal(modal, document.body);
 }
