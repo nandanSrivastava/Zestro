@@ -95,6 +95,7 @@ function PlanOptionCard({
   buttonText,
   buttonClass,
   isRecommended = false,
+  onClick,
 }) {
   return (
     <div className="relative group">
@@ -114,7 +115,7 @@ function PlanOptionCard({
         <div className="text-xs text-slate-600 mb-4 font-medium">
           {description}
         </div>
-        <button type="button" className={buttonClass}>
+        <button type="button" className={buttonClass} onClick={onClick}>
           {buttonText}
         </button>
       </div>
@@ -122,7 +123,7 @@ function PlanOptionCard({
   );
 }
 
-function ProOptions() {
+function ProOptions({ onOpen }) {
   return (
     <div className="space-y-6">
       <div className="text-center lg:text-left mb-6">
@@ -142,6 +143,7 @@ function ProOptions() {
           description="Your First 3 Months Are On Us! Enjoy now, subscribe later."
           buttonText="Start Free Trial"
           buttonClass="btn-outline w-full rounded-full py-3 font-bold text-sm shadow-lg hover:shadow-xl transition-all duration-300"
+          onClick={onOpen}
         />
         <PlanOptionCard
           type="💰 BEST VALUE"
@@ -151,6 +153,7 @@ function ProOptions() {
           buttonText="Buy 6-Month Plan"
           buttonClass="btn-primary w-full rounded-full py-3 font-bold text-sm hover:shadow-lg transition-all duration-300 border-[var(--zestro-orange-400)] text-[var(--zestro-orange-700)]"
           isRecommended={true}
+          onClick={onOpen}
         />
       </div>
     </div>
@@ -244,7 +247,7 @@ function useCardStyles(tier) {
   };
 }
 
-const PricingCard = memo(({ tier, index }) => {
+const PricingCard = memo(({ tier, index, onOpenWaitlist }) => {
   const {
     isHighlighted,
     buttonClass,
@@ -348,7 +351,7 @@ const PricingCard = memo(({ tier, index }) => {
           } p-8 lg:p-10 flex flex-col justify-center bg-white/95 group-hover:bg-gradient-to-br group-hover:from-white/95 group-hover:to-white/80 backdrop-blur-sm rounded-b-3xl lg:rounded-r-3xl`}
         >
           {tier.id === "pro" ? (
-            <ProOptions />
+            <ProOptions onOpen={onOpenWaitlist} />
           ) : (
             <div className="text-center lg:text-left">
               <div className="mb-8">
@@ -363,7 +366,19 @@ const PricingCard = memo(({ tier, index }) => {
               </div>
 
               <div className="flex justify-center lg:justify-start">
-                <button type="button" className={buttonClass}>
+                <button
+                  type="button"
+                  className={buttonClass}
+                  onClick={() => {
+                    // If this tier's CTA requests a demo, open the waitlist modal
+                    if (tier.cta?.action === "demo") {
+                      onOpenWaitlist?.();
+                      return;
+                    }
+                    // Otherwise, fallback to opening waitlist when provided
+                    onOpenWaitlist?.();
+                  }}
+                >
                   <span className="flex items-center justify-center gap-3">
                     {tier.cta?.label || "Choose"}
                     <svg

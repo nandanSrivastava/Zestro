@@ -1,9 +1,16 @@
-import React from "react";
+"use client";
+
+import React, { useCallback, useState } from "react";
 import { PRICING_TIERS, PRICING_CONFIG } from "../../utils/pricingData";
 import PricingCard from "../ui/PricingCard";
+import WaitlistModal from "../ui/WaitlistModal";
 
 /* ------------------ Main Pricing Section ------------------ */
 export default function Pricing() {
+  const [waitlistOpen, setWaitlistOpen] = useState(false);
+
+  const openWaitlist = useCallback(() => setWaitlistOpen(true), []);
+  const closeWaitlist = useCallback(() => setWaitlistOpen(false), []);
   return (
     <section id="pricing" className="py-20 relative overflow-hidden">
       {/* Background decorations */}
@@ -76,16 +83,29 @@ export default function Pricing() {
         {/* Pricing Cards Grid - Vertical Layout */}
         <div className="flex flex-col gap-8 max-w-4xl mx-auto">
           {PRICING_TIERS.filter((t) => t.id !== "free").map((tier, index) => (
-            <PricingCard key={tier.id} tier={tier} index={index} />
+            <PricingCard
+              key={tier.id}
+              tier={tier}
+              index={index}
+              onOpenWaitlist={openWaitlist}
+            />
           ))}
         </div>
+
+        {/* Waitlist modal shared by pricing CTAs */}
+        <WaitlistModal open={waitlistOpen} onClose={closeWaitlist} />
 
         {/* Bottom CTA */}
         <div className="text-center mt-16">
           <p className="text-slate-600 mb-4">Need a custom solution?</p>
-          <button className="btn-outline hover:scale-105 transition-all duration-300">
+          <a
+            className="btn-outline hover:scale-105 transition-all duration-300 inline-block"
+            href="https://wa.me/9113409065?text=Hey%20i%20want%20to%20connet%20with%20you%20regarding%20Zestro%20Plan"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Schedule a Consultation
-          </button>
+          </a>
         </div>
       </div>
     </section>
