@@ -197,32 +197,31 @@ export default function WaitlistModal({ open, onClose }) {
         aria-labelledby="waitlist-title"
         className={styles.dialog}
       >
-        {/* Close button */}
-        <button
-          type="button"
-          className={styles.closeBtn}
-          onClick={onClose}
-          aria-label="Close dialog"
-        >
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 20 20"
-            fill="none"
-            aria-hidden="true"
-          >
-            <path
-              d="M4.5 4.5l11 11m0-11l-11 11"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </button>
-
-        {/* Header */}
+        {/* Header + content */}
         <div className={styles.content}>
+          {/* Close button (moved inside the white card so it's visually inside the modal on large screens) */}
+          <button
+            type="button"
+            className={styles.closeBtn}
+            onClick={onClose}
+            aria-label="Close dialog"
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M4.5 4.5l11 11m0-11l-11 11"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
           <div className={`${styles.header} ${styles.headerSticky}`}>
             <div className={styles.headerInner}>
               <h3 id="waitlist-title" className={styles.title}>
@@ -251,7 +250,7 @@ export default function WaitlistModal({ open, onClose }) {
               <InputField
                 name="phone"
                 label="Phone"
-                placeholder="e.g. +1 555 555 5555"
+                placeholder="e.g. +91 9876543210"
                 inputMode="tel"
                 value={form.phone}
                 onChange={setField}
