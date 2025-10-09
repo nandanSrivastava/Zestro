@@ -1,18 +1,21 @@
 .backdrop {
-  position: absolute;
+  /* keep the base backdrop transparent — decorative gradient and dim
+     are provided via pseudo-elements on large screens; on small screens
+     we restore a simple dim below via a media query */
+  position: fixed;
   inset: 0;
-  /* stronger dim so full-page modal reads as an overlay */
-  background: rgba(0, 0, 0, 0.45);
-  z-index: 1;
+  background: transparent;
+  z-index: 99998;
 }
 .dialog {
   /* full-page white dialog */
   position: fixed;
   inset: 0;
-  z-index: 2;
+  /* ensure dialog sits above backdrop on all viewports */
+  z-index: 100000;
   background: var(--background, #fff);
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   max-width: none;
   border-radius: 0;
   padding: 0; /* full-bleed */
@@ -45,6 +48,7 @@
   gap: 1rem;
   max-height: none;
   overflow-y: visible;
+  position: relative; /* allow absolutely positioned children (close button) to sit inside the card */
 }
 .title {
   font-size: 1.05rem;
@@ -144,20 +148,65 @@
 .success {
   font-size: 0.97rem;
 }
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   .dialog {
+    /* give a small inset on mobile so the backdrop is visible around the card */
     padding: 0;
-    border-radius: 0;
-    height: 100%;
-    width: 100%;
-    align-items: flex-start; /* on small screens keep content from being vertically centered */
-    justify-content: flex-start;
+    /* make the container rounded to match the inner card */
+    border-radius: var(--radius-xl);
+    left: 0.75rem;
+    right: 0.75rem;
+    /* center vertically by offsetting top so dialog height equals 5/6 of viewport */
+    top: 8.3333dvh; /* (100 - 83.3333) / 2 */
+    height: 83.3333dvh; /* 5/6 of viewport height */
+    width: auto;
+    max-height: none;
+    display: block;
+    align-items: center;
+    justify-content: center;
+    /* let the inner .content render the white surface while the container
+     remains transparent so the backdrop is visible in the gap */
+    background: transparent;
   }
   .content {
     padding: 1.25rem 1rem;
-    border-radius: 0;
-    box-shadow: none;
+    border-radius: var(--radius-xl); /* rounded-xl */
+    box-shadow: 0 12px 30px rgba(17, 24, 39, 0.12);
     border: none;
+    background: rgba(255, 255, 255, 0.98);
+    /* fill the dialog height so the white card spans the 5/6 viewport */
+    height: 100%;
+    box-sizing: border-box;
+    overflow-y: auto;
+  }
+  /* small-screen backdrop: blurred solid color + overlay (mobile-friendly) */
+  .backdrop {
+    background: transparent;
+    position: fixed;
+    inset: 0;
+    z-index: 99998;
+  }
+
+  .backdrop::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    /* match desktop: solid darker Zestro tint with heavy blur */
+    background: rgba(var(--zestro-orange-700-rgb), 0.86);
+    filter: blur(160px);
+    transform: scale(1.06);
+    z-index: 99997;
+    opacity: 1;
+  }
+
+  .backdrop::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: rgba(var(--zestro-orange-700-rgb), 0.6);
+    z-index: 99998;
   }
 }
 
@@ -171,4 +220,113 @@
   align-items: stretch;
   justify-content: center;
   padding: 0;
+}
+
+/* Large-screen styles: turn the full-bleed dialog into a centered card */
+@media (min-width: 1024px) {
+  .dialog {
+    /* make the dialog a centered card instead of full-bleed */
+    position: fixed;
+    inset: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(900px, 86vw);
+    max-width: 1100px;
+    height: auto;
+    max-height: 90vh;
+    /* keep the dialog as a plain container; visual rounding and shadows
+     are applied to .content only to avoid layered artifacts */
+    border-radius: 0;
+    padding: 0; /* inner spacing is handled by .content */
+    box-shadow: none;
+    overflow: hidden; /* clip any background so we don't see repeated edges */
+    /* Ensure dialog sits above the backdrop */
+    z-index: 99999;
+    /* keep a neutral surface; the warm glow is applied to .content below */
+    background: transparent;
+  }
+
+  .content {
+    /* constrain and center the inner content */
+    padding: 2.25rem 2.5rem 2.5rem 2.5rem;
+    width: 100%;
+    max-width: 820px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-height: 82vh;
+    overflow-y: auto;
+    /* Keep the card surface white so the warm background applied to the backdrop
+       is visible around the card on large screens */
+    background: rgba(255, 255, 255, 1);
+    border-radius: var(--radius-xl);
+    /* remove inset shadow to avoid creating additional visible bands */
+    box-shadow: none;
+  }
+
+  /* Center the header/title/subtitle on large screens */
+  /* center header text on large screens */
+  .header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
+    text-align: center;
+  }
+
+  .headerInner {
+    flex: 0 1 auto;
+    text-align: center;
+  }
+
+  /* Layout the form inputs as a centered narrow column that equals ~1/3 of the viewport width */
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    margin-top: 0.6rem;
+    align-items: center; /* center the narrow input column */
+  }
+
+  .label {
+    width: 33vw; /* target 1/3 of viewport width */
+    max-width: 520px; /* don't let it get too wide on ultra-large screens */
+    min-width: 320px; /* keep inputs usable */
+    display: flex;
+    flex-direction: column;
+  }
+
+  .input {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Move actions to the right and keep spacing consistent */
+  .row {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+    margin-top: 0.85rem;
+    width: 100%;
+  }
+
+  /* Slight visual tweak for the close button on large screens */
+  .closeBtn {
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 6px 18px rgba(17, 24, 39, 0.06);
+    z-index: 4; /* keep the close button above the card surface but inside the modal stacking */
+  }
+
+  .backdrop::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    /* single solid overlay color (warm Zestro tint) */
+    background: rgba(var(--zestro-orange-700-rgb), 0.6);
+    z-index: 1;
+  }
 }

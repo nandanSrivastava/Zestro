@@ -36,6 +36,10 @@ img {
   --zestro-orange-800: #a63f00;
   --zestro-orange-900: #7b2b00;
   --zestro-accent: #ffb86b;
+  /* RGB helpers for rgba() usage */
+  --zestro-orange-200-rgb: 255, 242, 234;
+  --zestro-orange-600-rgb: 255, 122, 58;
+  --zestro-orange-700-rgb: 255, 90, 26;
 }
 :root {
   --zestro-blue-900: #7b2b00; /* kept aliases for compatibility */
