@@ -2,8 +2,9 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import Countdown from "./Countdown";
-import WaitlistModal from "../ui/WaitlistModal";
+import styles from "../styles/Hero.module.css";
+import Countdown from "../components/Countdown";
+import WaitlistModal from "../components/WaitlistModal";
 
 function nextMonth21() {
   const now = new Date();
@@ -50,8 +51,7 @@ export default function Hero() {
               alt="Zestro"
               width={240}
               height={72}
-              className="mx-auto hero-logo"
-              style={{ height: "auto" }}
+              className={`mx-auto ${styles.heroLogo}`}
             />
           </div>
 

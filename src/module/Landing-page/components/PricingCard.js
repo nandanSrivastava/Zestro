@@ -259,15 +259,12 @@ const PricingCard = memo(({ tier, index, onOpenWaitlist }) => {
   return (
     <article
       aria-labelledby={`tier-${tier.id}-title`}
-      className={`group relative rounded-3xl overflow-hidden transition-all duration-500 transform hover:scale-[1.02] ${
+      className={`group relative rounded-3xl overflow-hidden transition-all duration-500 transform hover:scale-[1.02] pricingCard ${
         isHighlighted
           ? "shadow-2xl shadow-[var(--zestro-orange-600)]/25 ring-[var(--zestro-orange-300)] bg-white group-hover:bg-gradient-to-br group-hover:from-white group-hover:to-[var(--zestro-orange-200)]/20"
           : "shadow-sm shadow-slate-200/80 bg-white border border-slate-100"
       }`}
-      style={{
-        animationDelay: `${index * 0.2}s`,
-        animation: "fade-in-up 0.8s ease-out forwards",
-      }}
+      // animation handled by CSS in Pricing.module.css via nth-child
     >
       {/* Enhanced glow effect for highlighted card */}
       {isHighlighted && (

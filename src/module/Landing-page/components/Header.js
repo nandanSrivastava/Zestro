@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import WaitlistModal from "../ui/WaitlistModal";
+import styles from "../styles/Header.module.css";
+import WaitlistModal from "../components/WaitlistModal";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -15,7 +16,7 @@ export default function Header() {
           alt="Zestro"
           width={100}
           height={100}
-          style={{ height: "auto" }}
+          className={styles.brandImage}
         />
       </div>
       <nav className="hidden md:flex items-center gap-4">

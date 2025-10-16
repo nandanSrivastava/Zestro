@@ -1,7 +1,7 @@
 "use client";
 
 import React, { memo, useEffect, useState } from "react";
-import { useCountdown } from "../../hooks/useCountdown";
+import { useCountdown } from "../hooks/useCountdown";
 
 /**
  * Individual time unit display component
@@ -9,10 +9,11 @@ import { useCountdown } from "../../hooks/useCountdown";
  * @param {number} props.value - Time value to display
  * @param {string} props.label - Label for the time unit
  */
+import styles from "../styles/Countdown.module.css";
+
 const TimeUnit = memo(({ value, label }) => (
   <div
-    className="time-unit bg-[color:var(--zestro-orange-700)]/90 px-3 py-2 sm:px-4 sm:py-3 rounded-lg shadow-lg min-w-[64px]"
-    style={{ boxShadow: "0 6px 18px rgba(255,90,26,0.18)" }}
+    className={`${styles.timeUnit} bg-[color:var(--zestro-orange-700)]/90 px-3 py-2 sm:px-4 sm:py-3 rounded-lg shadow-lg`}
   >
     <div className="text-lg sm:text-2xl font-bold text-white">
       {String(value).padStart(2, "0")}

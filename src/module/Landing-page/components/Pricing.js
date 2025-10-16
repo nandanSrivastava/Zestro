@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useCallback, useState } from "react";
-import { PRICING_TIERS, PRICING_CONFIG } from "../../utils/pricingData";
-import PricingCard from "../ui/PricingCard";
-import WaitlistModal from "../ui/WaitlistModal";
+import { PRICING_TIERS, PRICING_CONFIG } from "../../../utils/pricingData";
+import PricingCard from "../components/PricingCard";
+import WaitlistModal from "../components/WaitlistModal";
 
 /* ------------------ Main Pricing Section ------------------ */
 export default function Pricing() {

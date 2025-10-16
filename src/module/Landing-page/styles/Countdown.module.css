@@ -1,0 +1,9 @@
+.timeUnit {
+  min-width: 64px;
+  text-align: center;
+  padding: 0.5rem 0.75rem;
+}
+
+.launchedMessage {
+  text-align: center;
+}

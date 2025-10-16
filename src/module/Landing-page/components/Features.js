@@ -6,14 +6,12 @@ import {
   InventoryIcon,
   StaffIcon,
   AnalyticsIcon,
-} from "../ui/Icons";
-import {
   TableIcon,
   MenuIcon,
   PaymentsIcon,
   IntegrationsIcon,
-} from "../ui/Icons";
-import { FEATURES_DATA, FEATURES_CONFIG } from "../../utils/featuresData";
+} from "../components/Icons";
+import { FEATURES_DATA, FEATURES_CONFIG } from "../../../utils/featuresData";
 
 // Map feature IDs to their corresponding icons
 const FEATURE_ICONS = {

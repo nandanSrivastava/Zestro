@@ -8,7 +8,7 @@ import {
   useState,
 } from "react";
 import { createPortal } from "react-dom";
-import { submitWaitlist, WaitlistError } from "../../lib/waitlistClient";
+import { submitWaitlist, WaitlistError } from "../../../lib/waitlistClient";
 import styles from "./WaitlistModal.module.css";
 
 /* ------------------ UTILITIES ------------------ */
