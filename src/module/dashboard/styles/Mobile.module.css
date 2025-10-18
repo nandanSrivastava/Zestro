@@ -1,0 +1,111 @@
+.mobileHeader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  z-index: 200;
+  box-shadow: var(--shadow-sm);
+}
+
+.menuButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  transition: all 0.2s ease;
+}
+
+.menuButton:hover {
+  background: rgba(var(--zestro-orange-700-rgb), 0.1);
+  color: var(--zestro-orange-700);
+}
+
+.menuButton:active {
+  transform: scale(0.95);
+}
+
+.headerTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  background: linear-gradient(
+    135deg,
+    var(--zestro-orange-700),
+    var(--zestro-orange-600)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.headerSpacer {
+  width: 40px;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 150;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.mobileSidebar {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  bottom: 0;
+  width: 260px;
+  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 200;
+}
+
+.mobileSidebar.open {
+  left: 0;
+}
+
+.mobileContent {
+  margin-left: 0 !important;
+  padding-top: 60px;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .mobileHeader {
+    background: #1a1a1a;
+    border-bottom-color: #2d2d2d;
+  }
+
+  .menuButton {
+    color: #e0e0e0;
+  }
+
+  .menuButton:hover {
+    background: rgba(var(--zestro-orange-700-rgb), 0.15);
+    color: var(--zestro-orange-600);
+  }
+}
