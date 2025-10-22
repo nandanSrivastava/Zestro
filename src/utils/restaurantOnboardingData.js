@@ -35,8 +35,6 @@ export const FORM_SECTIONS = {
     title: "Restaurant Information",
     fields: [
       "restaurantName",
-      "cuisineType",
-      "seatingCapacity",
       "website",
       "description",
     ],
