@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import styles from "../styles/Header.module.css";
-import WaitlistModal from "../components/WaitlistModal";
+import RestaurantOnboardingModal from "../components/RestaurantOnboardingModal";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -20,15 +20,12 @@ export default function Header() {
         />
       </div>
       <nav className="hidden md:flex items-center gap-4">
-        <a href="#features" className="text-white hover:underline">
-          Features
-        </a>
         <button
           type="button"
           className="btn-primary"
           onClick={() => setModalOpen(true)}
         >
-          Notify
+          Join as Restaurant
         </button>
       </nav>
       <button
@@ -67,11 +64,14 @@ export default function Header() {
               setMenuOpen(false);
             }}
           >
-            Notify
+            Join as Restaurant
           </button>
         </div>
       )}
-      <WaitlistModal open={modalOpen} onClose={() => setModalOpen(false)} />
+      <RestaurantOnboardingModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+      />
     </header>
   );
 }

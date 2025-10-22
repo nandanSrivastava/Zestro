@@ -9,7 +9,7 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { submitWaitlist, WaitlistError } from "../../../lib/waitlistClient";
-import styles from "./WaitlistModal.module.css";
+import styles from "../styles/WaitlistModal.module.css";
 
 /* ------------------ UTILITIES ------------------ */
 const validateEmail = (email) =>

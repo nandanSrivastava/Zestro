@@ -126,3 +126,75 @@ export function debounce(func, wait) {
     timeout = setTimeout(later, wait);
   };
 }
+
+/**
+ * Postal code validation function
+ * @param {string} postalCode - Postal code to validate
+ * @returns {boolean} True if postal code is valid, false otherwise
+ */
+export function isValidPostalCode(postalCode) {
+  const cleanCode = String(postalCode || "").replace(/[^0-9]/g, "");
+  return /^[0-9]{5,6}$/.test(cleanCode);
+}
+
+/**
+ * Operating hours validation function
+ * @param {Object} hours - Operating hours object with from and to properties
+ * @returns {boolean} True if operating hours are valid, false otherwise
+ */
+export function isValidOperatingHours(hours) {
+  if (!hours || !hours.from || !hours.to) return false;
+
+  const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
+  return timeRegex.test(hours.from) && timeRegex.test(hours.to);
+}
+
+/**
+ * Seating capacity validation function
+ * @param {number|string} capacity - Seating capacity to validate
+ * @param {number} min - Minimum capacity (default: 1)
+ * @param {number} max - Maximum capacity (default: 1000)
+ * @returns {boolean} True if capacity is valid, false otherwise
+ */
+export function isValidSeatingCapacity(capacity, min = 1, max = 1000) {
+  const numCapacity = parseInt(capacity);
+  return !isNaN(numCapacity) && numCapacity >= min && numCapacity <= max;
+}
+
+/**
+ * Restaurant form validation function
+ * @param {Object} formData - Form data to validate
+ * @returns {string|null} Error message if validation fails, null if valid
+ */
+export function validateRestaurantForm(formData) {
+  const {
+    restaurantName,
+    ownerName,
+    email,
+    phone,
+    address,
+    city,
+    postalCode,
+    cuisineType,
+    seatingCapacity,
+    operatingHours,
+  } = formData;
+
+  if (!String(restaurantName || "").trim())
+    return "Restaurant name is required";
+  if (!String(ownerName || "").trim()) return "Owner name is required";
+  if (!isValidEmail(email)) return "Please provide a valid email address";
+  if (!isValidPhone(phone)) return "Please provide a valid phone number";
+  if (!String(address || "").trim()) return "Address is required";
+  if (!String(city || "").trim()) return "City is required";
+  if (!String(postalCode || "").trim()) return "Postal code is required";
+  if (!isValidPostalCode(postalCode))
+    return "Please provide a valid postal code";
+  if (!cuisineType) return "Please select cuisine type";
+  if (!isValidSeatingCapacity(seatingCapacity))
+    return "Seating capacity must be between 1 and 1000";
+  if (!isValidOperatingHours(operatingHours))
+    return "Operating hours are required";
+
+  return null;
+}
