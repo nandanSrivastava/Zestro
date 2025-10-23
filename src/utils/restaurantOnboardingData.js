@@ -33,11 +33,7 @@ export const SEATING_CAPACITY_LIMITS = {
 export const FORM_SECTIONS = {
   RESTAURANT_INFO: {
     title: "Restaurant Information",
-    fields: [
-      "restaurantName",
-      "website",
-      "description",
-    ],
+    fields: ["restaurantName", "website", "description"],
   },
   OWNER_INFO: {
     title: "Owner Information",
@@ -50,6 +46,7 @@ export const FORM_SECTIONS = {
 };
 
 export const INITIAL_FORM_STATE = {
+  country: "", // This will be set in the first step
   restaurantName: "",
   ownerName: "",
   email: "",
@@ -58,7 +55,6 @@ export const INITIAL_FORM_STATE = {
   city: "",
   state: "",
   postalCode: "",
-  country: "India",
   cuisineType: "",
   seatingCapacity: "",
   website: "",
@@ -68,12 +64,13 @@ export const INITIAL_FORM_STATE = {
   takeoutAvailable: false,
   operatingHours: { from: "", to: "" },
   logo: null, // File or URL (handled before submission)
+  gstin: "", // For India
+  vat: "", // For Nepal
 };
 
 // Formik-friendly alias for initial values
 export const FORMIK_INITIAL_VALUES = { ...INITIAL_FORM_STATE };
 
-// Prepare API payload from form values (centralized)
 export function toApiPayload(values) {
   return {
     restaurantName: String(values.restaurantName || "").trim(),
@@ -86,7 +83,7 @@ export function toApiPayload(values) {
     city: String(values.city || "").trim(),
     state: String(values.state || "").trim(),
     postalCode: String(values.postalCode || "").trim(),
-    country: String(values.country || "India").trim(),
+    country: String(values.country || "").trim(),
     cuisineType: String(values.cuisineType || "").trim(),
     seatingCapacity: parseInt(values.seatingCapacity) || 0,
     operatingHours: {
@@ -99,6 +96,13 @@ export function toApiPayload(values) {
     specialDishes: String(values.specialDishes || "").trim(),
     deliveryAvailable: Boolean(values.deliveryAvailable),
     takeoutAvailable: Boolean(values.takeoutAvailable),
+    // Tax fields based on country
+    gstin:
+      values.country === "India"
+        ? String(values.gstin || "").trim()
+        : undefined,
+    vat:
+      values.country === "Nepal" ? String(values.vat || "").trim() : undefined,
     submittedAt: new Date().toISOString(),
   };
 }
@@ -108,6 +112,7 @@ import * as Yup from "yup";
 
 export function getValidationSchema() {
   return Yup.object().shape({
+    country: Yup.string().trim().required("Please select a country"),
     restaurantName: Yup.string().trim().required("Restaurant name is required"),
     ownerName: Yup.string().trim().required("Owner name is required"),
     email: Yup.string()
@@ -121,6 +126,22 @@ export function getValidationSchema() {
       .trim()
       .matches(/^[0-9]{5,6}$/, "Please provide a valid postal code")
       .required("Postal code is required"),
+    // Optional tax fields
+    gstin: Yup.string().when("country", {
+      is: "India",
+      then: (schema) =>
+        schema.matches(
+          /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/,
+          "Please provide a valid GSTIN format"
+        ),
+      otherwise: (schema) => schema.notRequired(),
+    }),
+    vat: Yup.string().when("country", {
+      is: "Nepal",
+      then: (schema) =>
+        schema.matches(/^[0-9]{9}$/, "Please provide a valid VAT number"),
+      otherwise: (schema) => schema.notRequired(),
+    }),
     cuisineType: Yup.string().required("Please select cuisine type"),
     seatingCapacity: Yup.number()
       .typeError("Seating capacity must be a number")

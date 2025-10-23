@@ -25,7 +25,7 @@ export default function Header() {
           className="btn-primary"
           onClick={() => setModalOpen(true)}
         >
-          Join as Restaurant
+          SignUp
         </button>
       </nav>
       <button
@@ -50,12 +50,6 @@ export default function Header() {
       </button>
       {menuOpen && (
         <div className="absolute right-4 top-16 glass-card rounded-lg p-4 shadow-lg md:hidden">
-          <a
-            href="#features"
-            className="block py-2 text-[var(--zestro-orange-700)]"
-          >
-            Features
-          </a>
           <button
             type="button"
             className="block py-2 mt-2 btn-primary text-center"
@@ -64,7 +58,7 @@ export default function Header() {
               setMenuOpen(false);
             }}
           >
-            Join as Restaurant
+            SignUp
           </button>
         </div>
       )}

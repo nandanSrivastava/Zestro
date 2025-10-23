@@ -5,6 +5,7 @@ import Image from "next/image";
 import styles from "../styles/Hero.module.css";
 import Countdown from "../components/Countdown";
 import WaitlistModal from "../components/WaitlistModal";
+import RestaurantOnboardingModal from "../components/RestaurantOnboardingModal";
 
 function nextMonth21() {
   const now = new Date();
@@ -17,6 +18,7 @@ function nextMonth21() {
 
 export default function Hero() {
   const [isOpen, setIsOpen] = useState(false);
+  const [signupModalOpen, setSignupModalOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [target, setTarget] = useState(null);
 
@@ -26,7 +28,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="relative w-full hero-section flex flex-col justify-center items-center hero-bg overflow-hidden py-2 sm:py-4">
+    <section className="relative w-full hero-section flex flex-col justify-center items-center hero-bg overflow-hidden min-h-screen -mt-4">
       <div className="absolute inset-0 z-0 animate-gradient-x">
         <svg
           width="100%"
@@ -43,9 +45,9 @@ export default function Hero() {
         </svg>
       </div>
 
-      <div className="relative z-10 text-center glass-card rounded-none sm:rounded-3xl shadow-none sm:shadow-2xl px-4 sm:px-8 py-6 sm:py-8 w-full max-w-none sm:max-w-[980px] mx-auto animate-fade-in flex flex-col justify-center gap-1 sm:gap-6">
-        <div className="animate-fade-in">
-          <div className="mx-auto mb-3 sm:mb-2">
+      <div className="relative z-10 text-center glass-card rounded-none sm:rounded-3xl shadow-none sm:shadow-2xl px-6 sm:px-8 py-8 sm:py-8 w-full max-w-none sm:max-w-[980px] mx-auto animate-fade-in flex flex-col justify-center space-y-6 sm:space-y-8">
+        <div className="animate-fade-in space-y-4">
+          <div className="mx-auto mb-6 sm:mb-4">
             <Image
               src="/images/zestro-logo.png"
               alt="Zestro"
@@ -55,23 +57,23 @@ export default function Hero() {
             />
           </div>
 
-          <h1 className="text-lg sm:text-2xl md:text-3xl font-semibold drop-shadow mb-1 sm:mb-4 leading-tight mt-3 sm:mt-0">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold drop-shadow mb-6 sm:mb-4 leading-tight">
             The Future of Restaurant Management — Coming Soon
           </h1>
         </div>
-        <p className="intro-mobile-theme text-base sm:text-base mb-6 sm:mb-8 animate-fade-in font-serif">
+        <p className="intro-mobile-theme text-lg sm:text-base mb-8 sm:mb-8 animate-fade-in font-serif px-2 sm:px-0">
           A new platform <br className="block sm:hidden" /> built to streamline
           operations,
           <br className="block sm:hidden" /> delight customers, and
           <br className="block sm:hidden" /> empower teams.
         </p>
 
-        <div className="flex flex-col gap-6 justify-center mb-8 animate-fade-in">
+        <div className="flex flex-col space-y-8 justify-center animate-fade-in">
           <div className="text-center">
-            <p className="launching-soon text-2xl font-serif hover:scale-105 text-[var(--zestro-orange-800)] font-extrabold mb-3">
+            <p className="launching-soon text-2xl font-serif hover:scale-105 text-[var(--zestro-orange-800)] font-extrabold mb-6">
               Launching soon
             </p>
-            <div className="mx-auto mb-2">
+            <div className="mx-auto mb-6">
               {mounted && target ? (
                 <Countdown target={target} />
               ) : (
@@ -93,17 +95,30 @@ export default function Hero() {
             </div>
           </div>
 
-          <div className="flex justify-center">
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mt-8">
             <button
               type="button"
-              className="btn-primary text-base sm:text-base"
+              className="btn-primary text-lg sm:text-base px-8 py-4 w-full sm:w-auto"
               onClick={() => setIsOpen(true)}
             >
               Join waitlist
             </button>
+
+            {/* Sign up button - only visible on small screens */}
+            <button
+              type="button"
+              className="btn-primary text-lg px-8 py-4 w-full sm:hidden"
+              onClick={() => setSignupModalOpen(true)}
+            >
+              Sign up
+            </button>
           </div>
         </div>
         <WaitlistModal open={isOpen} onClose={() => setIsOpen(false)} />
+        <RestaurantOnboardingModal
+          open={signupModalOpen}
+          onClose={() => setSignupModalOpen(false)}
+        />
       </div>
     </section>
   );

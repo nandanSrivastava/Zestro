@@ -72,13 +72,11 @@ export function ActionRow({ onCancel, loading }) {
 export function ModalHeader() {
   return (
     <div className={styles.headerInner}>
-      <h3 id="onboarding-title" className={styles.title}>
-        Join Zestro Restaurant Management
-      </h3>
-      <p className={styles.subtitle}>
-        Partner with us to streamline your restaurant operations and boost your
-        business.
-      </p>
+      <div className={styles.titleRow}>
+        <h3 id="onboarding-title" className={styles.title}>
+          <span className={styles.titleAccent}>Join</span> Zestro
+        </h3>
+      </div>
     </div>
   );
 }

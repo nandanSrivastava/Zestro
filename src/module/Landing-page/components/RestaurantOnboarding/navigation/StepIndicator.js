@@ -11,7 +11,6 @@ export function StepIndicator({ currentStep, steps }) {
             index === currentStep ? styles.stepActive : ""
           } ${index < currentStep ? styles.stepCompleted : ""}`}
         >
-          <div className={styles.stepNumber}>{index + 1}</div>
           <div className={styles.stepTitle}>{step.title}</div>
         </div>
       ))}

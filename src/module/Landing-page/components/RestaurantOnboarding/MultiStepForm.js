@@ -1,9 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useFormikContext } from "formik";
 import styles from "../../styles/RestaurantOnboardingModal.module.css";
 import { FORM_STEPS, STEP_FIELDS } from "./steps";
 import { StepIndicator } from "./navigation/StepIndicator";
 import { StepNavigation } from "./navigation/StepNavigation";
+
+// Custom hook for responsive button text
+const useResponsiveButtonText = () => {
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsSmallScreen(window.innerWidth <= 360);
+    };
+
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
+
+  return isSmallScreen;
+};
 
 // Main MultiStep Form Component
 export function MultiStepForm({
@@ -15,6 +32,7 @@ export function MultiStepForm({
 }) {
   const [currentStep, setCurrentStep] = useState(0);
   const { validateForm, submitForm } = useFormikContext();
+  const isSmallScreen = useResponsiveButtonText();
 
   const handleNext = async () => {
     // Validate current step fields before proceeding
@@ -49,7 +67,10 @@ export function MultiStepForm({
 
   return (
     <div className={styles.multiStepForm}>
-      <StepIndicator currentStep={currentStep} steps={FORM_STEPS} />
+      {/* Show only the current step title instead of the step indicator navigation */}
+      <div className={styles.stepTitleHeader}>
+        <h2 className={styles.stepTitle}>{FORM_STEPS[currentStep].title}</h2>
+      </div>
 
       <div className={styles.stepContent}>
         <CurrentStepComponent firstRef={currentStep === 0 ? firstRef : null} />
@@ -57,24 +78,42 @@ export function MultiStepForm({
 
       {error && <div className={styles.error}>{error}</div>}
 
-      <div className={styles.stepFooter}>
-        <StepNavigation
-          currentStep={currentStep}
-          totalSteps={FORM_STEPS.length}
-          onNext={handleNext}
-          onPrev={handlePrev}
-          loading={loading}
-          isLastStep={isLastStep}
-        />
+      {/* Fixed footer with navigation buttons */}
+      <div className={styles.modalFooter}>
+        <div className={styles.footerButtons}>
+          {/* Previous button - left side */}
+          {currentStep > 0 && (
+            <button
+              type="button"
+              onClick={handlePrev}
+              className={styles.btnOutline}
+              disabled={loading}
+            >
+              Previous
+            </button>
+          )}
 
-        <div className={styles.cancelSection}>
+          {/* Spacer to push Next button to the right */}
+          <div className={styles.footerSpacer}></div>
+
+          {/* Next button - right side */}
           <button
             type="button"
-            onClick={onCancel}
-            className={styles.btnText}
+            onClick={handleNext}
+            className={styles.btnPrimary}
             disabled={loading}
           >
-            Cancel
+            {loading
+              ? isLastStep
+                ? "Submitting..."
+                : "Saving..."
+              : isLastStep
+              ? isSmallScreen
+                ? "Submit"
+                : "Submit Application"
+              : isSmallScreen
+              ? "Next"
+              : "Save & Next"}
           </button>
         </div>
       </div>

@@ -14,7 +14,8 @@ import {
 export function RestaurantInfoStep({ firstRef }) {
   return (
     <FormSection title="">
-      <div className={styles.fieldGrid}>
+      {/* Restaurant Name - Full width on big screens */}
+      <div className={styles.fieldGridSingle}>
         <InputField
           name="restaurantName"
           label={FORM_LABELS.restaurantName}
@@ -22,14 +23,15 @@ export function RestaurantInfoStep({ firstRef }) {
           inputRef={firstRef}
           required
         />
+      </div>
+      {/* Website and Logo - Same line on big screens */}
+      <div className={styles.fieldGrid}>
         <InputField
           name="website"
           label={FORM_LABELS.website}
           placeholder={FORM_PLACEHOLDERS.website}
           type="url"
         />
-      </div>
-      <div className={styles.fieldGrid}>
         <FileUploadField name="logo" label="Restaurant logo" accept="image/*" />
       </div>
       <TextareaField

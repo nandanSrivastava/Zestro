@@ -1,12 +1,15 @@
+import { useFormikContext } from "formik";
 import styles from "../../../styles/RestaurantOnboardingModal.module.css";
 import {
   FORM_LABELS,
   FORM_PLACEHOLDERS,
 } from "../../../../../utils/restaurantOnboardingData";
-import { InputField, TextareaField, FormSection } from "../index";
+import { InputField, SelectField, TextareaField, FormSection } from "../index";
 
 // Location Details Step
 export function LocationStep() {
+  const { values } = useFormikContext();
+
   return (
     <FormSection title="">
       <TextareaField
@@ -36,11 +39,17 @@ export function LocationStep() {
           placeholder={FORM_PLACEHOLDERS.postalCode}
           required
         />
-        <InputField
-          name="country"
-          label={FORM_LABELS.country}
-          placeholder={FORM_PLACEHOLDERS.country}
-        />
+        {/* Country field - auto-filled from first step and read-only */}
+        <div className={styles.label}>
+          <span className={styles.labelText}>{FORM_LABELS.country}</span>
+          <input
+            name="country"
+            value={values.country || ""}
+            readOnly
+            className={`${styles.input} ${styles.readOnlyInput}`}
+            style={{ backgroundColor: "#f9fafb", cursor: "not-allowed" }}
+          />
+        </div>
       </div>
     </FormSection>
   );

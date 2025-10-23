@@ -37,13 +37,13 @@ export default function RestaurantOnboardingModal({ open, onClose }) {
   /* Keyboard navigation and focus trapping */
   useEffect(() => {
     if (!open) return;
-
     const FOCUSABLE =
       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
     const handleKey = (e) => {
-      if (e.key === "Escape") return onClose();
+      // Do not close on Escape — modal should only close via the close button
 
+      // Handle Tab focus trap within modal
       if (e.key === "Tab" && containerRef.current) {
         const focusable = Array.from(
           containerRef.current.querySelectorAll(FOCUSABLE)
@@ -67,6 +67,16 @@ export default function RestaurantOnboardingModal({ open, onClose }) {
     return () => window.removeEventListener("keydown", handleKey);
   }, [open, onClose]);
 
+  // Prevent background scrolling and interaction while modal is open
+  useEffect(() => {
+    if (!open) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = originalOverflow || "";
+    };
+  }, [open]);
+
   /* Cleanup on modal close */
   useEffect(() => {
     if (!open) {
@@ -80,7 +90,8 @@ export default function RestaurantOnboardingModal({ open, onClose }) {
 
   const modal = (
     <div className={styles.container}>
-      <div className={styles.backdrop} onClick={onClose} aria-hidden="true" />
+      {/* Backdrop intentionally does NOT close the modal on click — modal only closes via CloseButton */}
+      <div className={styles.backdrop} aria-hidden="true" />
 
       <div
         ref={containerRef}
@@ -89,9 +100,10 @@ export default function RestaurantOnboardingModal({ open, onClose }) {
         aria-labelledby="onboarding-title"
         className={styles.dialog}
       >
-        <div className={styles.content}>
-          <CloseButton onClose={onClose} />
+        {/* Close button placed directly under dialog so it stays fixed and doesn't scroll with content */}
+        <CloseButton onClose={onClose} />
 
+        <div className={styles.content}>
           <div className={`${styles.header} ${styles.headerSticky}`}>
             <ModalHeader />
           </div>
