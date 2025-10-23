@@ -1,3 +1,4 @@
+import { useFormikContext } from "formik";
 import styles from "../../../styles/RestaurantOnboardingModal.module.css";
 import {
   FORM_LABELS,
@@ -12,6 +13,9 @@ import {
 
 // Restaurant Information Step
 export function RestaurantInfoStep({ firstRef }) {
+  const { values } = useFormikContext();
+  const selectedCountry = values.country;
+
   return (
     <FormSection title="">
       {/* Restaurant Name - Full width on big screens */}
@@ -34,6 +38,24 @@ export function RestaurantInfoStep({ firstRef }) {
         />
         <FileUploadField name="logo" label="Restaurant logo" accept="image/*" />
       </div>
+
+      {/* Conditional tax fields based on country */}
+      {selectedCountry === "India" && (
+        <InputField
+          name="gstin"
+          label="GSTIN"
+          placeholder="Enter GSTIN number (optional)"
+        />
+      )}
+
+      {selectedCountry === "Nepal" && (
+        <InputField
+          name="vat"
+          label="VAT Number"
+          placeholder="Enter VAT number (optional)"
+        />
+      )}
+
       <TextareaField
         name="description"
         label={FORM_LABELS.description}

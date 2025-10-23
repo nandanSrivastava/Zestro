@@ -74,7 +74,12 @@ export function ModalHeader() {
     <div className={styles.headerInner}>
       <div className={styles.titleRow}>
         <h3 id="onboarding-title" className={styles.title}>
-          <span className={styles.titleAccent}>Join</span> Zestro
+          <span className={styles.titleAccent}>Join</span>
+          <img
+            src="/images/zestro-logo.png"
+            alt="Zestro"
+            className={styles.logoImage}
+          />
         </h3>
       </div>
     </div>

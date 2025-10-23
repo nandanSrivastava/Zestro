@@ -37,23 +37,6 @@ export function OwnerStep() {
         inputMode="tel"
         required
       />
-
-      {/* Conditional tax fields based on country */}
-      {selectedCountry === "India" && (
-        <InputField
-          name="gstin"
-          label="GSTIN"
-          placeholder="Enter GSTIN number (optional)"
-        />
-      )}
-
-      {selectedCountry === "Nepal" && (
-        <InputField
-          name="vat"
-          label="VAT Number"
-          placeholder="Enter VAT number (optional)"
-        />
-      )}
     </FormSection>
   );
 }

@@ -103,6 +103,9 @@
   margin-bottom: 0.5rem;
   color: var(--zestro-orange-800, #1f2937);
   line-height: 1.3;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .subtitle {
@@ -131,6 +134,13 @@
   margin-right: 0.25rem;
 }
 
+.logoImage {
+  height: 2rem;
+  width: auto;
+  object-fit: contain;
+  margin-left: 0;
+}
+
 .titleBrand {
   color: var(--zestro-orange-700, #ff5a1a);
   margin-left: 0.25rem;
@@ -152,7 +162,6 @@
 
 /* Form Sections */
 .section {
-  margin-bottom: 2rem;
   background: #ffffff !important;
   padding: 0;
 }
@@ -162,8 +171,6 @@
   font-weight: 600;
   color: var(--zestro-orange-700, #374151);
   margin-bottom: 1rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid var(--zestro-accent, #f3f4f6);
   background: #ffffff !important;
 }
 
@@ -462,25 +469,28 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0.5rem 2rem 0.25rem 2rem;
-  background: var(--background-light, #f8fafc);
+  padding: 1.5rem 2rem 1rem 2rem;
+  background: white;
   border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .stepTitleHeader .stepTitle {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--zestro-orange-700, #ff5a1a);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1f2937;
   margin: 0;
   text-align: center;
 }
 
 .stepContent {
   flex: 1;
-  /* reduce paddings for a more compact content area */
-  padding: 0.25rem 1rem 0rem 1rem;
+  padding: 1.5rem 2rem;
   overflow-y: auto;
   background: #ffffff !important;
+  min-height: 0;
 }
 
 .stepContentTitle {
@@ -576,12 +586,16 @@
 
 .modalFooter {
   margin-top: auto;
+  background: white;
   border-top: 1px solid #e5e7eb;
-  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+  padding: 1rem 2rem;
   width: 100%;
   max-width: 100vw;
   box-sizing: border-box;
   overflow: hidden;
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
 }
 
 .footerButtons {
