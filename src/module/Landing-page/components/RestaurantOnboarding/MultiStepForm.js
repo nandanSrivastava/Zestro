@@ -31,20 +31,34 @@ export function MultiStepForm({
   onSubmitStep,
 }) {
   const [currentStep, setCurrentStep] = useState(0);
-  const { validateForm, submitForm } = useFormikContext();
+  const [stepError, setStepError] = useState(null);
+  const { validateForm, submitForm, setTouched, touched } = useFormikContext();
   const isSmallScreen = useResponsiveButtonText();
 
   const handleNext = async () => {
+    // Clear any previous step error
+    setStepError(null);
+
     // Validate current step fields before proceeding
     const errors = await validateForm();
     const currentStepId = FORM_STEPS[currentStep].id;
+    const currentStepFields = STEP_FIELDS[currentStepId] || [];
 
     // Check if current step has validation errors
     const hasStepErrors = Object.keys(errors).some((key) => {
-      return STEP_FIELDS[currentStepId]?.includes(key);
+      return currentStepFields.includes(key);
     });
 
     if (hasStepErrors) {
+      // Mark all current step fields as touched to show validation errors
+      const touchedFields = {};
+      currentStepFields.forEach((fieldName) => {
+        touchedFields[fieldName] = true;
+      });
+      setTouched({ ...touched, ...touchedFields });
+
+      // Show general error message
+      setStepError("Please fill in all required fields before continuing.");
       return; // Stay on current step if validation fails
     }
 
@@ -57,6 +71,7 @@ export function MultiStepForm({
   };
 
   const handlePrev = () => {
+    setStepError(null); // Clear step error when going back
     if (currentStep > 0) {
       setCurrentStep(currentStep - 1);
     }
@@ -76,6 +91,10 @@ export function MultiStepForm({
         <CurrentStepComponent firstRef={currentStep === 0 ? firstRef : null} />
       </div>
 
+      {/* Display step validation error */}
+      {stepError && <div className={styles.error}>{stepError}</div>}
+
+      {/* Display general error from props */}
       {error && <div className={styles.error}>{error}</div>}
 
       {/* Fixed footer with navigation buttons */}

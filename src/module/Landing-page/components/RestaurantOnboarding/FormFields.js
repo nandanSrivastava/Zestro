@@ -1,10 +1,12 @@
+import React, { memo } from "react";
 import styles from "../../styles/RestaurantOnboardingModal.module.css";
 import { useField, useFormikContext } from "formik";
+import PropTypes from "prop-types";
 
 /**
  * Reusable input field component for restaurant onboarding form
  */
-export function InputField({
+export const InputField = memo(function InputField({
   name,
   label,
   placeholder,
@@ -39,12 +41,17 @@ export function InputField({
       ) : null}
     </label>
   );
-}
+});
 
 /**
  * Reusable select field component for restaurant onboarding form
  */
-export function SelectField({ name, label, options, required = false }) {
+export const SelectField = memo(function SelectField({
+  name,
+  label,
+  options,
+  required = false,
+}) {
   const [field, meta, helpers] = useField(name);
   return (
     <label className={styles.label} htmlFor={name}>
@@ -70,12 +77,12 @@ export function SelectField({ name, label, options, required = false }) {
       ) : null}
     </label>
   );
-}
+});
 
 /**
  * Reusable textarea field component for restaurant onboarding form
  */
-export function TextareaField({
+export const TextareaField = memo(function TextareaField({
   name,
   label,
   placeholder,
@@ -102,13 +109,17 @@ export function TextareaField({
       ) : null}
     </label>
   );
-}
+});
 
 /**
  * Reusable time input field component for restaurant onboarding form
  */
 // Special: support nested field names like 'operatingHours.from'
-export function TimeInputField({ name, label, required = false }) {
+export const TimeInputField = memo(function TimeInputField({
+  name,
+  label,
+  required = false,
+}) {
   const [field, meta] = useField(name);
   return (
     <label className={styles.label} htmlFor={name}>
@@ -127,12 +138,12 @@ export function TimeInputField({ name, label, required = false }) {
       ) : null}
     </label>
   );
-}
+});
 
 /**
  * Reusable checkbox field component for restaurant onboarding form
  */
-export function CheckboxField({ name, label }) {
+export const CheckboxField = memo(function CheckboxField({ name, label }) {
   const { setFieldValue } = useFormikContext();
   const [field] = useField({ name, type: "checkbox" });
   return (
@@ -146,12 +157,16 @@ export function CheckboxField({ name, label }) {
       <span>{label}</span>
     </label>
   );
-}
+});
 
 /**
  * File upload field (supports image preview). Stores File object in Formik state.
  */
-export function FileUploadField({ name, label, accept = "image/*" }) {
+export const FileUploadField = memo(function FileUploadField({
+  name,
+  label,
+  accept = "image/*",
+}) {
   const { setFieldValue } = useFormikContext();
   const [field, meta] = useField(name);
 
@@ -177,4 +192,49 @@ export function FileUploadField({ name, label, accept = "image/*" }) {
       ) : null}
     </label>
   );
-}
+});
+
+// PropTypes for all form field components
+InputField.propTypes = {
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
+  type: PropTypes.string,
+  inputMode: PropTypes.string,
+  inputRef: PropTypes.object,
+  required: PropTypes.bool,
+  min: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  max: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+};
+
+SelectField.propTypes = {
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  options: PropTypes.arrayOf(PropTypes.string).isRequired,
+  required: PropTypes.bool,
+};
+
+TextareaField.propTypes = {
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
+  rows: PropTypes.number,
+  required: PropTypes.bool,
+};
+
+TimeInputField.propTypes = {
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  required: PropTypes.bool,
+};
+
+CheckboxField.propTypes = {
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+};
+
+FileUploadField.propTypes = {
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  accept: PropTypes.string,
+};

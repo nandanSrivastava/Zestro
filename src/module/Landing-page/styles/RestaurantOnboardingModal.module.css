@@ -82,12 +82,15 @@
 
 .header {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: center;
   gap: 0.75rem;
 }
 
 .headerInner {
   flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
 }
 
 .headerSticky {
@@ -119,6 +122,7 @@
 .titleRow {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.75rem;
 }
 
@@ -431,14 +435,9 @@
    ========================================= */
 
 .error {
-  background: #fef2f2;
-  border: 1px solid #fecaca;
   color: #dc2626;
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
   font-size: 0.875rem;
-  font-weight: 500;
-  margin-top: 1rem;
+  margin-top: 0.25rem;
 }
 
 /* =========================================

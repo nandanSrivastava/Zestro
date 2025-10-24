@@ -30,7 +30,14 @@ export const FORM_STEPS = [
 // Step field validation mapping
 export const STEP_FIELDS = {
   country: ["country"],
-  restaurant: ["restaurantName", "website", "logo", "description"],
-  location: ["address", "city", "state", "postalCode", "country"],
-  owner: ["ownerName", "email", "phone", "gstin", "vat"],
+  restaurant: [
+    "restaurantName",
+    "website",
+    "logo",
+    "description",
+    "gstin",
+    "vat",
+  ],
+  location: ["address", "city", "state", "postalCode"],
+  owner: ["ownerName", "email", "phone"],
 };

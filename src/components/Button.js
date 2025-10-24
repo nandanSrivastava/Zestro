@@ -1,6 +1,7 @@
 "use client";
 
-import React from "react";
+import React, { memo } from "react";
+import PropTypes from "prop-types";
 
 /**
  * Reusable Button component with multiple variants and sizes
@@ -14,7 +15,7 @@ import React from "react";
  * @param {boolean} props.loading - Whether button is in loading state
  * @param {string} props.className - Additional CSS classes
  */
-export default function Button({
+const Button = memo(function Button({
   children,
   onClick,
   type = "button",
@@ -59,6 +60,8 @@ export default function Button({
       className={classes}
       onClick={onClick}
       disabled={disabled || loading}
+      aria-disabled={disabled || loading}
+      aria-busy={loading}
       {...props}
     >
       {loading && (
@@ -86,4 +89,27 @@ export default function Button({
       {children}
     </button>
   );
-}
+});
+
+Button.propTypes = {
+  children: PropTypes.node.isRequired,
+  onClick: PropTypes.func,
+  type: PropTypes.oneOf(["button", "submit", "reset"]),
+  variant: PropTypes.oneOf(["primary", "secondary", "outline", "ghost"]),
+  size: PropTypes.oneOf(["sm", "md", "lg"]),
+  disabled: PropTypes.bool,
+  loading: PropTypes.bool,
+  className: PropTypes.string,
+};
+
+Button.defaultProps = {
+  onClick: undefined,
+  type: "button",
+  variant: "primary",
+  size: "md",
+  disabled: false,
+  loading: false,
+  className: "",
+};
+
+export default Button;

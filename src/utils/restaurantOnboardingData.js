@@ -2,21 +2,6 @@
  * Restaurant onboarding constants and configuration
  */
 
-export const FORM_SECTIONS = {
-  RESTAURANT_INFO: {
-    title: "Restaurant Information",
-    fields: ["restaurantName", "website", "description"],
-  },
-  OWNER_INFO: {
-    title: "Owner Information",
-    fields: ["ownerName", "email", "phone", "password"],
-  },
-  LOCATION_DETAILS: {
-    title: "Location Details",
-    fields: ["address", "city", "state", "postalCode", "country"],
-  },
-};
-
 export const INITIAL_FORM_STATE = {
   country: "", // This will be set in the first step
   restaurantName: "",
@@ -29,9 +14,6 @@ export const INITIAL_FORM_STATE = {
   postalCode: "",
   website: "",
   description: "",
-  specialDishes: "",
-  deliveryAvailable: false,
-  takeoutAvailable: false,
   logo: null, // File or URL (handled before submission)
   gstin: "", // For India
   vat: "", // For Nepal
@@ -56,9 +38,6 @@ export function toApiPayload(values) {
     website: String(values.website || "").trim(),
     description: String(values.description || "").trim(),
     logo: values.logo || null,
-    specialDishes: String(values.specialDishes || "").trim(),
-    deliveryAvailable: Boolean(values.deliveryAvailable),
-    takeoutAvailable: Boolean(values.takeoutAvailable),
     // Tax fields based on country
     gstin:
       values.country === "India"
@@ -72,6 +51,7 @@ export function toApiPayload(values) {
 
 // Validation schema using Yup (requires `yup` installed)
 import * as Yup from "yup";
+import { getCountryByName } from "../config/countries";
 
 export function getValidationSchema() {
   return Yup.object().shape({
@@ -85,6 +65,7 @@ export function getValidationSchema() {
     phone: Yup.string().trim().required("Phone number is required"),
     address: Yup.string().trim().required("Address is required"),
     city: Yup.string().trim().required("City is required"),
+    state: Yup.string().trim().notRequired(),
     postalCode: Yup.string()
       .trim()
       .matches(/^[0-9]{5,6}$/, "Please provide a valid postal code")
@@ -92,17 +73,24 @@ export function getValidationSchema() {
     // Optional tax fields
     gstin: Yup.string().when("country", {
       is: "India",
-      then: (schema) =>
-        schema.matches(
-          /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/,
-          "Please provide a valid GSTIN format"
-        ),
+      then: (schema) => {
+        const countryConfig = getCountryByName("India");
+        return schema.matches(
+          countryConfig?.taxFieldValidation,
+          countryConfig?.taxFieldValidationMessage
+        );
+      },
       otherwise: (schema) => schema.notRequired(),
     }),
     vat: Yup.string().when("country", {
       is: "Nepal",
-      then: (schema) =>
-        schema.matches(/^[0-9]{9}$/, "Please provide a valid VAT number"),
+      then: (schema) => {
+        const countryConfig = getCountryByName("Nepal");
+        return schema.matches(
+          countryConfig?.taxFieldValidation,
+          countryConfig?.taxFieldValidationMessage
+        );
+      },
       otherwise: (schema) => schema.notRequired(),
     }),
     website: Yup.string()
@@ -110,9 +98,7 @@ export function getValidationSchema() {
       .url("Please provide a valid website URL")
       .notRequired(),
     description: Yup.string().trim().notRequired(),
-    specialDishes: Yup.string().trim().notRequired(),
-    deliveryAvailable: Yup.boolean(),
-    takeoutAvailable: Yup.boolean(),
+    logo: Yup.mixed().notRequired(),
   });
 }
 
@@ -141,9 +127,9 @@ export const FORM_LABELS = {
   country: "Country",
   website: "Website",
   description: "Restaurant Description",
-  specialDishes: "Special Dishes & Signature Items",
-  deliveryAvailable: "Delivery service available",
-  takeoutAvailable: "Takeout service available",
+  logo: "Restaurant Logo",
+  gstin: "GSTIN",
+  vat: "VAT Number",
 };
 
 export const FORM_PLACEHOLDERS = {
@@ -158,5 +144,6 @@ export const FORM_PLACEHOLDERS = {
   country: "India",
   website: "https://your-restaurant.com",
   description: "Tell us about your restaurant, ambiance, and specialties...",
-  specialDishes: "List your most popular and signature dishes...",
+  gstin: "Enter GSTIN number (optional)",
+  vat: "Enter VAT number (optional)",
 };

@@ -1,24 +1,13 @@
 import { useFormikContext } from "formik";
 import Image from "next/image";
+import PropTypes from "prop-types";
 import styles from "../../../styles/RestaurantOnboardingModal.module.css";
 import { FormSection } from "../index";
+import { SUPPORTED_COUNTRIES } from "../../../../../config/countries";
 
 // Country Selection Step
 export function CountryStep() {
-  const { values, setFieldValue } = useFormikContext();
-
-  const countries = [
-    {
-      code: "IN",
-      name: "India",
-      flag: "/images/india.png",
-    },
-    {
-      code: "NP",
-      name: "Nepal",
-      flag: "/images/nepal.png",
-    },
-  ];
+  const { values, setFieldValue, errors, touched } = useFormikContext();
 
   const handleCountrySelect = (countryName) => {
     setFieldValue("country", countryName);
@@ -32,7 +21,7 @@ export function CountryStep() {
         </p>
 
         <div className={styles.countryGrid}>
-          {countries.map((country) => (
+          {SUPPORTED_COUNTRIES.map((country) => (
             <div
               key={country.code}
               className={`${styles.countryCard} ${
@@ -41,6 +30,16 @@ export function CountryStep() {
                   : ""
               }`}
               onClick={() => handleCountrySelect(country.name)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  handleCountrySelect(country.name);
+                }
+              }}
+              tabIndex={0}
+              role="button"
+              aria-pressed={values.country === country.name}
+              aria-label={`Select ${country.name} as your country`}
             >
               <div className={styles.countryFlag}>
                 <Image
@@ -55,7 +54,16 @@ export function CountryStep() {
             </div>
           ))}
         </div>
+
+        {/* Show validation error for country field */}
+        {touched.country && errors.country && (
+          <div className={styles.error}>{errors.country}</div>
+        )}
       </div>
     </FormSection>
   );
 }
+
+CountryStep.propTypes = {
+  firstRef: PropTypes.object,
+};

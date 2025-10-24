@@ -1,4 +1,5 @@
 import { useFormikContext } from "formik";
+import PropTypes from "prop-types";
 import styles from "../../../styles/RestaurantOnboardingModal.module.css";
 import {
   FORM_LABELS,
@@ -10,11 +11,13 @@ import {
   FileUploadField,
   FormSection,
 } from "../index";
+import { getCountryByName } from "../../../../../config/countries";
 
 // Restaurant Information Step
 export function RestaurantInfoStep({ firstRef }) {
   const { values } = useFormikContext();
   const selectedCountry = values.country;
+  const countryConfig = getCountryByName(selectedCountry);
 
   return (
     <FormSection title="">
@@ -40,19 +43,11 @@ export function RestaurantInfoStep({ firstRef }) {
       </div>
 
       {/* Conditional tax fields based on country */}
-      {selectedCountry === "India" && (
+      {countryConfig && countryConfig.taxField && (
         <InputField
-          name="gstin"
-          label="GSTIN"
-          placeholder="Enter GSTIN number (optional)"
-        />
-      )}
-
-      {selectedCountry === "Nepal" && (
-        <InputField
-          name="vat"
-          label="VAT Number"
-          placeholder="Enter VAT number (optional)"
+          name={countryConfig.taxField}
+          label={countryConfig.taxFieldLabel}
+          placeholder={countryConfig.taxFieldPlaceholder}
         />
       )}
 
@@ -65,3 +60,7 @@ export function RestaurantInfoStep({ firstRef }) {
     </FormSection>
   );
 }
+
+RestaurantInfoStep.propTypes = {
+  firstRef: PropTypes.object,
+};

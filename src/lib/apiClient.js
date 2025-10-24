@@ -2,6 +2,8 @@
  * Generic API client for making HTTP requests
  */
 
+import { ApiError, logError } from "../utils/errorHandling";
+
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "";
 
 /**
@@ -20,16 +22,21 @@ const defaultConfig = {
  */
 async function handleResponse(response) {
   if (!response.ok) {
-    const error = new Error(`HTTP error! status: ${response.status}`);
-    error.status = response.status;
-    error.statusText = response.statusText;
+    let errorData = null;
 
     try {
-      const errorData = await response.json();
-      error.data = errorData;
+      errorData = await response.json();
     } catch {
-      // If response is not JSON, just use status text
+      // If response is not JSON, use status text
+      errorData = { message: response.statusText };
     }
+
+    const error = new ApiError(
+      errorData?.message || `HTTP error! status: ${response.status}`,
+      response.status,
+      response.statusText,
+      errorData
+    );
 
     throw error;
   }
@@ -66,7 +73,7 @@ async function makeRequest(endpoint, options = {}) {
     const response = await fetch(url, config);
     return await handleResponse(response);
   } catch (error) {
-    console.error("API request failed:", error);
+    logError(error, { url, method: config.method });
     throw error;
   }
 }
