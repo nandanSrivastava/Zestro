@@ -17,13 +17,21 @@ import {
   RestaurantOnboardingForm,
 } from "./RestaurantOnboarding";
 import { Formik } from "formik";
+import Celebration from "../../../components/Celebration";
 
 /**
  * Restaurant Onboarding Modal Component
  */
 export default function RestaurantOnboardingModal({ open, onClose }) {
-  const { loading, error, success, submitValues, abortSubmission } =
-    useRestaurantOnboarding();
+  const {
+    loading,
+    error,
+    success,
+    showCelebration,
+    submitValues,
+    abortSubmission,
+    handleCelebrationComplete,
+  } = useRestaurantOnboarding();
 
   const firstRef = useRef(null);
   const containerRef = useRef(null);
@@ -99,6 +107,7 @@ export default function RestaurantOnboardingModal({ open, onClose }) {
         aria-modal="true"
         aria-labelledby="onboarding-title"
         className={styles.dialog}
+        style={{ position: "relative" }}
       >
         {/* Close button placed directly under dialog so it stays fixed and doesn't scroll with content */}
         <CloseButton onClose={onClose} />
@@ -134,6 +143,12 @@ export default function RestaurantOnboardingModal({ open, onClose }) {
             </Formik>
           )}
         </div>
+
+        {/* Celebration Effect - positioned within the modal dialog */}
+        <Celebration
+          show={showCelebration}
+          onComplete={handleCelebrationComplete}
+        />
       </div>
     </div>
   );

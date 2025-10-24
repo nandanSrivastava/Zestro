@@ -2,34 +2,6 @@
  * Restaurant onboarding constants and configuration
  */
 
-export const CUISINE_TYPES = [
-  "Italian",
-  "Chinese",
-  "Indian",
-  "Mexican",
-  "Japanese",
-  "Thai",
-  "French",
-  "Mediterranean",
-  "American",
-  "Korean",
-  "Vietnamese",
-  "Greek",
-  "Spanish",
-  "Lebanese",
-  "Turkish",
-  "Ethiopian",
-  "Moroccan",
-  "Brazilian",
-  "Fusion",
-  "Other",
-];
-
-export const SEATING_CAPACITY_LIMITS = {
-  min: 1,
-  max: 1000,
-};
-
 export const FORM_SECTIONS = {
   RESTAURANT_INFO: {
     title: "Restaurant Information",
@@ -37,7 +9,7 @@ export const FORM_SECTIONS = {
   },
   OWNER_INFO: {
     title: "Owner Information",
-    fields: ["ownerName", "email", "phone"],
+    fields: ["ownerName", "email", "phone", "password"],
   },
   LOCATION_DETAILS: {
     title: "Location Details",
@@ -55,14 +27,11 @@ export const INITIAL_FORM_STATE = {
   city: "",
   state: "",
   postalCode: "",
-  cuisineType: "",
-  seatingCapacity: "",
   website: "",
   description: "",
   specialDishes: "",
   deliveryAvailable: false,
   takeoutAvailable: false,
-  operatingHours: { from: "", to: "" },
   logo: null, // File or URL (handled before submission)
   gstin: "", // For India
   vat: "", // For Nepal
@@ -84,12 +53,6 @@ export function toApiPayload(values) {
     state: String(values.state || "").trim(),
     postalCode: String(values.postalCode || "").trim(),
     country: String(values.country || "").trim(),
-    cuisineType: String(values.cuisineType || "").trim(),
-    seatingCapacity: parseInt(values.seatingCapacity) || 0,
-    operatingHours: {
-      from: String(values.operatingHours?.from || "").trim(),
-      to: String(values.operatingHours?.to || "").trim(),
-    },
     website: String(values.website || "").trim(),
     description: String(values.description || "").trim(),
     logo: values.logo || null,
@@ -142,26 +105,6 @@ export function getValidationSchema() {
         schema.matches(/^[0-9]{9}$/, "Please provide a valid VAT number"),
       otherwise: (schema) => schema.notRequired(),
     }),
-    cuisineType: Yup.string().required("Please select cuisine type"),
-    seatingCapacity: Yup.number()
-      .typeError("Seating capacity must be a number")
-      .min(
-        SEATING_CAPACITY_LIMITS.min,
-        `Seating capacity must be at least ${SEATING_CAPACITY_LIMITS.min}`
-      )
-      .max(
-        SEATING_CAPACITY_LIMITS.max,
-        `Seating capacity must be at most ${SEATING_CAPACITY_LIMITS.max}`
-      )
-      .required("Seating capacity is required"),
-    operatingHours: Yup.object().shape({
-      from: Yup.string()
-        .matches(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, "Invalid time")
-        .required("Opening time is required"),
-      to: Yup.string()
-        .matches(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, "Invalid time")
-        .required("Closing time is required"),
-    }),
     website: Yup.string()
       .trim()
       .url("Please provide a valid website URL")
@@ -179,13 +122,11 @@ export const VALIDATION_MESSAGES = {
   INVALID_PHONE: "Please provide a valid phone number",
   INVALID_URL: "Please provide a valid website URL",
   INVALID_POSTAL_CODE: "Please provide a valid postal code",
-  INVALID_SEATING_CAPACITY: `Seating capacity must be between ${SEATING_CAPACITY_LIMITS.min} and ${SEATING_CAPACITY_LIMITS.max}`,
-  INVALID_OPERATING_HOURS: "Please provide valid operating hours",
-  SELECT_CUISINE: "Please select cuisine type",
 };
 
 export const API_ENDPOINTS = {
-  RESTAURANT_ONBOARDING: "/api/restaurant-onboarding",
+  RESTAURANT_ONBOARDING: "/api/restaurant-onboarding", // Keep for local fallback
+  BACKEND_RESTAURANTS: "/restaurants", // NestJS backend endpoint
 };
 
 export const FORM_LABELS = {
@@ -198,13 +139,9 @@ export const FORM_LABELS = {
   state: "State/Province",
   postalCode: "Postal Code",
   country: "Country",
-  cuisineType: "Cuisine Type",
-  seatingCapacity: "Seating Capacity",
   website: "Website",
   description: "Restaurant Description",
   specialDishes: "Special Dishes & Signature Items",
-  operatingHoursFrom: "Opening Time",
-  operatingHoursTo: "Closing Time",
   deliveryAvailable: "Delivery service available",
   takeoutAvailable: "Takeout service available",
 };

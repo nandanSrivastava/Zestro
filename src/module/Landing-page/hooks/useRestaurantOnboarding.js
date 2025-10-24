@@ -12,11 +12,17 @@ export function useRestaurantOnboarding() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [showCelebration, setShowCelebration] = useState(false);
 
   const controllerRef = useRef(null);
 
   // Clear error message
   const clearError = useCallback(() => setError(""), []);
+
+  // Handle celebration completion
+  const handleCelebrationComplete = useCallback(() => {
+    setShowCelebration(false);
+  }, []);
 
   // Submit form data
   // Submit Formik values. submitFunction should accept (payload, { signal })
@@ -50,6 +56,12 @@ export function useRestaurantOnboarding() {
       const payload = toApiPayload(preparedValues);
       await submitFunction(payload, { signal: controllerRef.current.signal });
       setSuccess(true);
+
+      // Trigger celebration effect
+      setTimeout(() => {
+        setShowCelebration(true);
+      }, 500); // Small delay for better UX
+
       return true;
     } catch (err) {
       if (err?.name === "AbortError") return false;
@@ -85,8 +97,10 @@ export function useRestaurantOnboarding() {
     loading,
     error,
     success,
+    showCelebration,
     clearError,
     submitValues,
     abortSubmission,
+    handleCelebrationComplete,
   };
 }
