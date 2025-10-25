@@ -24,18 +24,25 @@ function transformToBackendFormat(data) {
   const transformed = {
     // Restaurant details
     restaurantName: data.restaurantName,
-    cuisineType: "Mixed", // Default value since it's required by backend
-    seatingCapacity: 50, // Default value since it's required by backend
+    gstNumber: data.gstin || data.vat || "DEFAULT-GST-001", // Use tax number or default
     website: data.website || undefined,
+    restaurantLogo: data.logo || undefined,
     description: data.description || undefined,
+
+    // Address Details
+    address: data.address,
+    city: data.city,
+    state: data.state || "N/A", // Backend requires state, provide default if empty
+    postalCode: data.postalCode,
+    country: data.country,
 
     // User details (owner)
     userName: data.ownerName,
     email: data.email,
-    password: "ZestroOwner@123", // Default password since it's required by backend
+    password: "ZestroOwner@123", // Default password - should be handled properly in production
     role: "owner",
     phone: data.phone || undefined,
-    address: data.address || undefined,
+    addressLine: data.address || undefined, // Duplicate for user address
     profilePicture: undefined, // Handle file upload separately if needed
   };
 

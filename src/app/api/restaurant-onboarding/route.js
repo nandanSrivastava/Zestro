@@ -20,14 +20,6 @@ const validateUrl = (url) => {
   }
 };
 
-const validateOperatingHours = (hours) => {
-  if (!hours || !hours.from || !hours.to) return false;
-
-  // Check if times are in valid HH:MM format
-  const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
-  return timeRegex.test(hours.from) && timeRegex.test(hours.to);
-};
-
 // Main validation function
 const validateRestaurantData = (data) => {
   const errors = [];
@@ -38,8 +30,8 @@ const validateRestaurantData = (data) => {
     { key: "ownerName", message: "Owner name is required" },
     { key: "address", message: "Address is required" },
     { key: "city", message: "City is required" },
+    { key: "state", message: "State is required" },
     { key: "postalCode", message: "Postal code is required" },
-    { key: "cuisineType", message: "Cuisine type is required" },
   ];
 
   requiredFields.forEach(({ key, message }) => {
@@ -68,17 +60,6 @@ const validateRestaurantData = (data) => {
     errors.push("Please provide a valid website URL");
   }
 
-  // Seating capacity validation
-  const capacity = parseInt(data.seatingCapacity);
-  if (!capacity || capacity < 1 || capacity > 1000) {
-    errors.push("Seating capacity must be between 1 and 1000");
-  }
-
-  // Operating hours validation
-  if (!validateOperatingHours(data.operatingHours)) {
-    errors.push("Please provide valid operating hours");
-  }
-
   return errors;
 };
 
@@ -96,17 +77,8 @@ const sanitizeRestaurantData = (data) => {
     state: String(data.state || "").trim(),
     postalCode: String(data.postalCode || "").replace(/[^0-9]/g, ""),
     country: String(data.country || "India").trim(),
-    cuisineType: String(data.cuisineType || "").trim(),
-    seatingCapacity: parseInt(data.seatingCapacity) || 0,
-    operatingHours: {
-      from: String(data.operatingHours?.from || "").trim(),
-      to: String(data.operatingHours?.to || "").trim(),
-    },
     website: String(data.website || "").trim(),
     description: String(data.description || "").trim(),
-    specialDishes: String(data.specialDishes || "").trim(),
-    deliveryAvailable: Boolean(data.deliveryAvailable),
-    takeoutAvailable: Boolean(data.takeoutAvailable),
     submittedAt: data.submittedAt || new Date().toISOString(),
     status: "pending", // Default status for new applications
   };
@@ -152,9 +124,8 @@ const sendApplicationNotification = async (restaurantData) => {
       <p>Application Details:</p>
       <ul>
         <li>Restaurant: ${restaurantData.restaurantName}</li>
-        <li>Cuisine: ${restaurantData.cuisineType}</li>
         <li>Location: ${restaurantData.city}, ${restaurantData.state}</li>
-        <li>Seating Capacity: ${restaurantData.seatingCapacity}</li>
+        <li>Country: ${restaurantData.country}</li>
       </ul>
       <p>Best regards,<br>The Zestro Team</p>
     `,

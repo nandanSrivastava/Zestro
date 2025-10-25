@@ -65,7 +65,7 @@ export function getValidationSchema() {
     phone: Yup.string().trim().required("Phone number is required"),
     address: Yup.string().trim().required("Address is required"),
     city: Yup.string().trim().required("City is required"),
-    state: Yup.string().trim().notRequired(),
+    state: Yup.string().trim().required("State is required"),
     postalCode: Yup.string()
       .trim()
       .matches(/^[0-9]{5,6}$/, "Please provide a valid postal code")
