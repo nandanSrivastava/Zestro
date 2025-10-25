@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import styles from "../styles/RestaurantOnboardingModal.module.css";
 import { useRestaurantOnboarding } from "../hooks/useRestaurantOnboarding";
@@ -10,18 +10,12 @@ import {
   getValidationSchema,
 } from "../../../utils/restaurantOnboardingData";
 
-import {
-  SuccessPanel,
-  ModalHeader,
-  CloseButton,
-  RestaurantOnboardingForm,
-} from "./RestaurantOnboarding";
+import { SuccessPanel, ModalHeader, CloseButton } from "./RestaurantOnboarding";
+import { MultiStepForm } from "./RestaurantOnboarding/MultiStepForm";
 import { Formik } from "formik";
 import Celebration from "../../../components/Celebration";
 
-/**
- * Restaurant Onboarding Modal Component
- */
+/* Restaurant Onboarding Modal Component */
 export default function RestaurantOnboardingModal({ open, onClose }) {
   const {
     loading,
@@ -92,8 +86,6 @@ export default function RestaurantOnboardingModal({ open, onClose }) {
     }
   }, [open, abortSubmission]);
 
-  /* Formik onSubmit handled below via submitValues */
-
   if (!open) return null;
 
   const modal = (
@@ -132,9 +124,7 @@ export default function RestaurantOnboardingModal({ open, onClose }) {
               }}
             >
               {(formikProps) => (
-                <RestaurantOnboardingForm
-                  onSubmit={formikProps.handleSubmit}
-                  onCancel={onClose}
+                <MultiStepForm
                   loading={loading || formikProps.isSubmitting}
                   error={error}
                   firstRef={firstRef}

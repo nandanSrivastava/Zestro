@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import { useFormikContext } from "formik";
 import styles from "../../styles/RestaurantOnboardingModal.module.css";
 import { FORM_STEPS, STEP_FIELDS } from "./steps";
-import { StepIndicator } from "./navigation/StepIndicator";
-import { StepNavigation } from "./navigation/StepNavigation";
 
 // Custom hook for responsive button text
 const useResponsiveButtonText = () => {
@@ -23,13 +21,7 @@ const useResponsiveButtonText = () => {
 };
 
 // Main MultiStep Form Component
-export function MultiStepForm({
-  onCancel,
-  loading,
-  error,
-  firstRef,
-  onSubmitStep,
-}) {
+export function MultiStepForm({ loading, error, firstRef }) {
   const [currentStep, setCurrentStep] = useState(0);
   const [stepError, setStepError] = useState(null);
   const { validateForm, submitForm, setTouched, touched } = useFormikContext();

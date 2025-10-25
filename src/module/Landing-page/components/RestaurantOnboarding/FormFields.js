@@ -1,240 +1,139 @@
-import React, { memo } from "react";
+import { memo } from "react";
 import styles from "../../styles/RestaurantOnboardingModal.module.css";
 import { useField, useFormikContext } from "formik";
 import PropTypes from "prop-types";
 
-/**
- * Reusable input field component for restaurant onboarding form
- */
-export const InputField = memo(function InputField({
+// Custom hook for field state
+const useFieldState = (name, type) => {
+  const [field, meta] = useField(type ? { name, type } : name);
+  return {
+    field,
+    meta,
+    hasError: meta.touched && meta.error,
+    error: meta.error,
+  };
+};
+
+// Common field wrapper component
+const FieldWrapper = ({ name, label, required, children, error }) => (
+  <label className={styles.label} htmlFor={name}>
+    <span className={styles.labelText}>
+      {label} {required && <span className={styles.required}>*</span>}
+    </span>
+    {children}
+    {error && <div className={styles.error}>{error}</div>}
+  </label>
+);
+
+// Base field component factory
+const createField = (Component, defaultProps = {}) =>
+  memo((props) => {
+    const { field, hasError, error } = useFieldState(props.name);
+    const {
+      name,
+      label,
+      required = false,
+      ...rest
+    } = { ...defaultProps, ...props };
+
+    return (
+      <FieldWrapper
+        name={name}
+        label={label}
+        required={required}
+        error={hasError && error}
+      >
+        <Component field={field} name={name} required={required} {...rest} />
+      </FieldWrapper>
+    );
+  });
+
+// Individual field components
+const Input = ({
+  field,
   name,
-  label,
-  placeholder,
   type = "text",
+  placeholder,
   inputMode,
   inputRef,
-  required = false,
+  required,
   min,
   max,
-}) {
-  const [field, meta] = useField(name);
-  return (
-    <label className={styles.label} htmlFor={name}>
-      <span className={styles.labelText}>
-        {label} {required && <span className={styles.required}>*</span>}
-      </span>
-      <input
-        id={name}
-        ref={inputRef}
-        {...field}
-        type={type}
-        className={styles.input}
-        placeholder={placeholder}
-        inputMode={inputMode}
-        aria-label={label}
-        required={required}
-        min={min}
-        max={max}
-      />
-      {meta.touched && meta.error ? (
-        <div className={styles.error}>{meta.error}</div>
-      ) : null}
-    </label>
-  );
-});
+}) => (
+  <input
+    id={name}
+    ref={inputRef}
+    {...field}
+    type={type}
+    className={styles.input}
+    placeholder={placeholder}
+    inputMode={inputMode}
+    aria-label={name}
+    required={required}
+    min={min}
+    max={max}
+  />
+);
 
-/**
- * Reusable select field component for restaurant onboarding form
- */
-export const SelectField = memo(function SelectField({
-  name,
-  label,
-  options,
-  required = false,
-}) {
-  const [field, meta, helpers] = useField(name);
-  return (
-    <label className={styles.label} htmlFor={name}>
-      <span className={styles.labelText}>
-        {label} {required && <span className={styles.required}>*</span>}
-      </span>
-      <select
-        id={name}
-        {...field}
-        className={styles.select}
-        onChange={(e) => helpers.setValue(e.target.value)}
-        required={required}
-      >
-        <option value="">Select {label.toLowerCase()}</option>
-        {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
-      {meta.touched && meta.error ? (
-        <div className={styles.error}>{meta.error}</div>
-      ) : null}
-    </label>
-  );
-});
+const Textarea = ({ field, name, placeholder, rows = 3, required }) => (
+  <textarea
+    id={name}
+    {...field}
+    className={styles.textarea}
+    placeholder={placeholder}
+    rows={rows}
+    required={required}
+  />
+);
 
-/**
- * Reusable textarea field component for restaurant onboarding form
- */
-export const TextareaField = memo(function TextareaField({
-  name,
-  label,
-  placeholder,
-  rows = 3,
-  required = false,
-}) {
-  const [field, meta] = useField(name);
-  return (
-    <label className={styles.label} htmlFor={name}>
-      <span className={styles.labelText}>
-        {label} {required && <span className={styles.required}>*</span>}
-      </span>
-      <textarea
-        id={name}
-        {...field}
-        className={styles.textarea}
-        placeholder={placeholder}
-        rows={rows}
-        aria-label={label}
-        required={required}
-      />
-      {meta.touched && meta.error ? (
-        <div className={styles.error}>{meta.error}</div>
-      ) : null}
-    </label>
-  );
-});
-
-/**
- * Reusable time input field component for restaurant onboarding form
- */
-// Special: support nested field names like 'operatingHours.from'
-export const TimeInputField = memo(function TimeInputField({
-  name,
-  label,
-  required = false,
-}) {
-  const [field, meta] = useField(name);
-  return (
-    <label className={styles.label} htmlFor={name}>
-      <span className={styles.labelText}>
-        {label} {required && <span className={styles.required}>*</span>}
-      </span>
-      <input
-        id={name}
-        {...field}
-        type="time"
-        className={styles.input}
-        required={required}
-      />
-      {meta.touched && meta.error ? (
-        <div className={styles.error}>{meta.error}</div>
-      ) : null}
-    </label>
-  );
-});
-
-/**
- * Reusable checkbox field component for restaurant onboarding form
- */
-export const CheckboxField = memo(function CheckboxField({ name, label }) {
+const FileInput = ({ name, accept = "image/*" }) => {
   const { setFieldValue } = useFormikContext();
-  const [field] = useField({ name, type: "checkbox" });
-  return (
-    <label className={styles.checkboxLabel}>
-      <input
-        type="checkbox"
-        {...field}
-        onChange={(e) => setFieldValue(name, e.target.checked)}
-        className={styles.checkbox}
-      />
-      <span>{label}</span>
-    </label>
-  );
-});
-
-/**
- * File upload field (supports image preview). Stores File object in Formik state.
- */
-export const FileUploadField = memo(function FileUploadField({
-  name,
-  label,
-  accept = "image/*",
-}) {
-  const { setFieldValue } = useFormikContext();
-  const [field, meta] = useField(name);
-
-  const handleChange = (e) => {
-    const file = e.target.files && e.target.files[0];
-    setFieldValue(name, file || null);
-  };
+  const { field } = useFieldState(name);
 
   return (
-    <label className={styles.label}>
-      <span className={styles.labelText}>{label}</span>
+    <>
       <input
         type="file"
         accept={accept}
-        onChange={handleChange}
+        onChange={(e) => setFieldValue(name, e.target.files?.[0] || null)}
         className={styles.input}
       />
-      {field.value && typeof field.value === "object" && field.value.name ? (
+      {field.value?.name && (
         <div className={styles.fileInfo}>{field.value.name}</div>
-      ) : null}
-      {meta.touched && meta.error ? (
-        <div className={styles.error}>{meta.error}</div>
-      ) : null}
-    </label>
+      )}
+    </>
   );
-});
+};
 
-// PropTypes for all form field components
-InputField.propTypes = {
+// Exported field components
+export const InputField = createField(Input);
+export const TextareaField = createField(Textarea);
+export const FileUploadField = createField(FileInput);
+
+// PropTypes
+const baseProps = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
+};
+const fieldProps = { ...baseProps, required: PropTypes.bool };
+
+FieldWrapper.propTypes = {
+  ...fieldProps,
+  children: PropTypes.node,
+  error: PropTypes.string,
+};
+InputField.propTypes = {
+  ...fieldProps,
   placeholder: PropTypes.string,
   type: PropTypes.string,
   inputMode: PropTypes.string,
   inputRef: PropTypes.object,
-  required: PropTypes.bool,
   min: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   max: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
-
-SelectField.propTypes = {
-  name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  options: PropTypes.arrayOf(PropTypes.string).isRequired,
-  required: PropTypes.bool,
-};
-
 TextareaField.propTypes = {
-  name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
+  ...fieldProps,
   placeholder: PropTypes.string,
   rows: PropTypes.number,
-  required: PropTypes.bool,
 };
-
-TimeInputField.propTypes = {
-  name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  required: PropTypes.bool,
-};
-
-CheckboxField.propTypes = {
-  name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-};
-
-FileUploadField.propTypes = {
-  name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  accept: PropTypes.string,
-};
+FileUploadField.propTypes = { ...baseProps, accept: PropTypes.string };

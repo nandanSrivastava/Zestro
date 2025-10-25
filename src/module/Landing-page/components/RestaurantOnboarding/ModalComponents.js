@@ -46,27 +46,6 @@ export function SuccessPanel({ onClose }) {
 }
 
 /**
- * Action row component with cancel and submit buttons
- */
-export function ActionRow({ onCancel, loading }) {
-  return (
-    <div className={styles.row}>
-      <button
-        type="button"
-        className={styles.btnOutline}
-        onClick={onCancel}
-        disabled={loading}
-      >
-        Cancel
-      </button>
-      <button type="submit" className={styles.btnPrimary} disabled={loading}>
-        {loading ? "Submitting Application..." : "Submit Application"}
-      </button>
-    </div>
-  );
-}
-
-/**
  * Modal header component
  */
 export function ModalHeader() {

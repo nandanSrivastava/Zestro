@@ -1,69 +1,43 @@
 import { NextResponse } from "next/server";
 
-// Validation utilities
-const validateEmail = (email) =>
-  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email || ""));
+/**
+ * Restaurant Onboarding API Route
+ *
+ * This API relies primarily on Formik + Yup validation on the frontend.
+ * Server-side validation is minimal and focused on basic security checks.
+ * Detailed validation (email format, phone patterns, etc.) is handled by Formik.
+ */
 
-const validatePhone = (phone) =>
-  String(phone || "").replace(/[^0-9]/g, "").length >= 7;
-
-const validatePostalCode = (postalCode) =>
-  /^[0-9]{5,6}$/.test(String(postalCode || "").replace(/[^0-9]/g, ""));
-
-const validateUrl = (url) => {
-  if (!url) return true; // Optional field
-  try {
-    new URL(url);
-    return true;
-  } catch {
-    return false;
-  }
-};
-
-// Main validation function
-const validateRestaurantData = (data) => {
+// Basic server-side validation (minimal security checks)
+const basicValidation = (data) => {
   const errors = [];
 
-  // Required string fields
+  // Check for required fields (basic presence check only)
   const requiredFields = [
-    { key: "restaurantName", message: "Restaurant name is required" },
-    { key: "ownerName", message: "Owner name is required" },
-    { key: "address", message: "Address is required" },
-    { key: "city", message: "City is required" },
-    { key: "state", message: "State is required" },
-    { key: "postalCode", message: "Postal code is required" },
+    "restaurantName",
+    "ownerName",
+    "email",
+    "address",
+    "city",
+    "state",
+    "postalCode",
   ];
 
-  requiredFields.forEach(({ key, message }) => {
-    if (!data[key] || !String(data[key]).trim()) {
-      errors.push(message);
+  requiredFields.forEach((field) => {
+    if (!data[field] || !String(data[field]).trim()) {
+      errors.push(`${field} is required`);
     }
   });
 
-  // Email validation
-  if (!validateEmail(data.email)) {
-    errors.push("Please provide a valid email address");
-  }
-
-  // Phone validation
-  if (!validatePhone(data.phone)) {
-    errors.push("Please provide a valid phone number");
-  }
-
-  // Postal code validation
-  if (data.postalCode && !validatePostalCode(data.postalCode)) {
-    errors.push("Please provide a valid postal code");
-  }
-
-  // Website URL validation
-  if (data.website && !validateUrl(data.website)) {
-    errors.push("Please provide a valid website URL");
+  // Basic email format check (very lenient)
+  if (data.email && !String(data.email).includes("@")) {
+    errors.push("Invalid email format");
   }
 
   return errors;
 };
 
-// Sanitize and format data
+// Sanitize and format data (trusting Formik for validation, focusing on security)
 const sanitizeRestaurantData = (data) => {
   return {
     restaurantName: String(data.restaurantName || "").trim(),
@@ -75,10 +49,14 @@ const sanitizeRestaurantData = (data) => {
     address: String(data.address || "").trim(),
     city: String(data.city || "").trim(),
     state: String(data.state || "").trim(),
-    postalCode: String(data.postalCode || "").replace(/[^0-9]/g, ""),
-    country: String(data.country || "India").trim(),
+    postalCode: String(data.postalCode || "").trim(),
+    country: String(data.country || "").trim(),
     website: String(data.website || "").trim(),
     description: String(data.description || "").trim(),
+    // Include tax fields if provided (Formik handles validation)
+    gstin: data.gstin ? String(data.gstin).trim() : undefined,
+    vat: data.vat ? String(data.vat).trim() : undefined,
+    // Server-side metadata
     submittedAt: data.submittedAt || new Date().toISOString(),
     status: "pending", // Default status for new applications
   };
@@ -140,13 +118,13 @@ export async function POST(request) {
     // Parse request body
     const data = await request.json();
 
-    // Validate the incoming data
-    const validationErrors = validateRestaurantData(data);
+    // Basic server-side validation (trusting Formik for detailed validation)
+    const validationErrors = basicValidation(data);
     if (validationErrors.length > 0) {
       return NextResponse.json(
         {
           success: false,
-          message: "Validation failed",
+          message: "Basic validation failed",
           errors: validationErrors,
         },
         { status: 400 }

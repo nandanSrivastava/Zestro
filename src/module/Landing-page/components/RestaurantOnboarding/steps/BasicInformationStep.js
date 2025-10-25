@@ -14,7 +14,7 @@ import {
 import { getCountryByName } from "../../../../../config/countries";
 
 // Restaurant Information Step
-export function RestaurantInfoStep({ firstRef }) {
+export function BasicInformationStep({ firstRef }) {
   const { values } = useFormikContext();
   const selectedCountry = values.country;
   const countryConfig = getCountryByName(selectedCountry);
@@ -61,6 +61,6 @@ export function RestaurantInfoStep({ firstRef }) {
   );
 }
 
-RestaurantInfoStep.propTypes = {
+BasicInformationStep.propTypes = {
   firstRef: PropTypes.object,
 };

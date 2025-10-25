@@ -1,7 +1,8 @@
 import { CountryStep } from "./CountryStep";
-import { RestaurantInfoStep } from "./RestaurantInfoStep";
+import { BasicInformationStep } from "./BasicInformationStep";
 import { LocationStep } from "./LocationStep";
 import { OwnerStep } from "./OwnerStep";
+import { Basic } from "next/font/google";
 
 // Define the form steps configuration
 export const FORM_STEPS = [
@@ -13,7 +14,7 @@ export const FORM_STEPS = [
   {
     id: "restaurant",
     title: "Basic Information",
-    component: RestaurantInfoStep,
+    component: BasicInformationStep,
   },
   {
     id: "location",

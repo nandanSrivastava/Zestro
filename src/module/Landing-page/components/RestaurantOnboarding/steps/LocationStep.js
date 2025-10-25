@@ -30,6 +30,7 @@ export function LocationStep() {
           name="state"
           label={FORM_LABELS.state}
           placeholder={FORM_PLACEHOLDERS.state}
+          required
         />
       </div>
       <div className={styles.fieldGrid}>
