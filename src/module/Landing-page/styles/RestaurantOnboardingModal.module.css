@@ -1,0 +1,976 @@
+/* =========================================
+   RESTAURANT ONBOARDING MODAL STYLES
+   ========================================= */
+
+/* =========================================
+   1. BASE MODAL STRUCTURE
+   ========================================= */
+
+/* Base container and backdrop styles inherited from WaitlistModal */
+.container {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: transparent;
+  z-index: 99998;
+}
+
+.dialog {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  background: var(--background, #fff);
+  width: 100vw;
+  height: 100dvh;
+  max-width: none;
+  border-radius: 0;
+  padding: 0;
+  display: block;
+  overflow: auto;
+}
+
+.closeBtn {
+  /* Keep the close button fixed to the viewport so it never scrolls with modal content */
+  position: fixed;
+  top: 1rem;
+  right: 1.5rem;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.95);
+  /* sit above the dialog */
+  z-index: 100001;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.closeBtn:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: scale(1.05);
+}
+
+.content {
+  padding: 0 2.5rem 2.5rem 2.5rem;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  max-height: none;
+  overflow-y: visible;
+  position: relative;
+  padding-left: max(2.5rem, env(safe-area-inset-left));
+  padding-right: max(2.5rem, env(safe-area-inset-right));
+}
+
+/* =========================================
+   2. HEADER STYLES
+   ========================================= */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.headerInner {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+}
+
+.headerSticky {
+  position: sticky;
+  top: 0;
+  padding: 0.5rem;
+  z-index: 3;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--zestro-orange-800, #1f2937);
+  line-height: 1.3;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Enhanced header styles */
+.titleRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.titleAccent {
+  color: var(--zestro-orange-600, #ff7a3d);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 122, 61, 0.12),
+    rgba(255, 122, 61, 0)
+  );
+  padding: 0.125rem 0.375rem;
+  border-radius: 6px;
+  margin-right: 0.25rem;
+}
+
+.logoImage {
+  height: 2rem;
+  width: auto;
+  object-fit: contain;
+  margin-left: 0;
+}
+
+.titleBrand {
+  color: var(--zestro-orange-700, #ff5a1a);
+  margin-left: 0.25rem;
+}
+
+.headerBadge {
+  background: var(--zestro-orange-400, #ffb997);
+  color: white;
+  font-weight: 700;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(255, 122, 61, 0.12);
+}
+
+/* =========================================
+   3. FORM SECTIONS & FIELDS
+   ========================================= */
+
+/* Form Sections */
+.section {
+  background: #ffffff !important;
+  padding: 0;
+}
+
+.sectionTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--zestro-orange-700, #374151);
+  margin-bottom: 1rem;
+  background: #ffffff !important;
+}
+
+.sectionContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: #ffffff !important;
+}
+
+/* Ensure all nested elements also have white background */
+.stepContent .section,
+.stepContent .sectionContent,
+.stepContent .fieldGrid,
+.stepContent .fieldGridSingle {
+  background: #ffffff !important;
+}
+
+/* Form styles */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 0;
+}
+
+.fieldGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.fieldGridSingle {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+.labelText {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--zestro-orange-800, #374151);
+  margin-bottom: 0.25rem;
+}
+
+.required {
+  color: #ef4444;
+  font-weight: 600;
+}
+
+/* Form Inputs */
+.input,
+.select,
+.textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+  outline: none;
+  border-color: var(--zestro-orange-500, #f97316);
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: #9ca3af;
+}
+
+.select {
+  cursor: pointer;
+  /* Hide native dropdown arrow so custom SVG is the only visible indicator */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+}
+
+/* Hide default dropdown arrow in IE/Edge */
+.select::-ms-expand {
+  display: none;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 80px;
+  font-family: inherit;
+  line-height: 1.5;
+}
+
+/* Checkbox styles */
+.checkboxGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--zestro-orange-800, #374151);
+  cursor: pointer;
+}
+
+.checkbox {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid #d1d5db;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.checkbox:checked {
+  background-color: var(--zestro-orange-500, #f97316);
+  border-color: var(--zestro-orange-500, #f97316);
+  background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='m13.854 3.646-7.5 7.5a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6 10.293l7.146-7.147a.5.5 0 0 1 .708.708z'/%3e%3c/svg%3e");
+}
+
+/* =========================================
+   4. BUTTON STYLES
+   ========================================= */
+
+.btnPrimary {
+  background: var(--zestro-orange-500, #f97316);
+  color: white;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 120px;
+}
+
+.btnPrimary:hover:not(:disabled) {
+  background: var(--zestro-orange-600, #ea580c);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(249, 115, 22, 0.2);
+}
+
+.btnPrimary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btnOutline {
+  background: transparent;
+  color: var(--zestro-orange-600, #ea580c);
+  border: 2px solid var(--zestro-orange-500, #f97316);
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 120px;
+}
+
+.btnOutline:hover:not(:disabled) {
+  background: var(--zestro-orange-50, #fff7ed);
+  transform: translateY(-1px);
+}
+
+.btnOutline:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btnText {
+  background: none;
+  border: none;
+  color: var(--text-secondary, #6b7280);
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 8px;
+}
+
+.btnText:hover {
+  color: var(--zestro-orange-700, #ff5a1a);
+  background: var(--zestro-orange-200, #fff1e9);
+}
+
+.btnText:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* =========================================
+   5. SUCCESS PANEL
+   ========================================= */
+
+.successPanel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.successIcon {
+  margin-bottom: 0.5rem;
+}
+
+.successTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--zestro-orange-800, #1f2937);
+  margin: 0;
+}
+
+.successMessage {
+  font-size: 1rem;
+  color: #6b7280;
+  line-height: 1.6;
+  max-width: 500px;
+  margin: 0;
+}
+
+.successActions {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+/* =========================================
+   6. ERROR MESSAGES
+   ========================================= */
+
+.error {
+  color: #dc2626;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+/* =========================================
+   7. ACTION ROWS
+   ========================================= */
+
+.row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* =========================================
+   8. MULTI-STEP FORM STRUCTURE
+   ========================================= */
+
+.multiStepForm {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 100%;
+}
+
+.stepTitleHeader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem 2rem 1rem 2rem;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.stepTitleHeader .stepTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+  text-align: center;
+}
+
+.stepContent {
+  flex: 1;
+  padding: 1.5rem 2rem;
+  overflow-y: auto;
+  background: #ffffff !important;
+  min-height: 0;
+}
+
+.stepContentTitle {
+  /* main step content title (reduced) */
+  font-size: 0.875rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--zestro-orange-700, #ff5a1a);
+  text-align: center;
+}
+
+/* =========================================
+   9. STEP INDICATOR
+   ========================================= */
+
+.stepIndicator {
+  display: flex;
+  /* fill the modal width so all steps combined fit the container */
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.0625rem 0.5rem 0.0625rem;
+  background: var(--background-light, #f8fafc);
+  gap: 0.25rem;
+}
+
+.stepItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* let each step expand to share available width */
+  gap: 0.03125rem;
+  min-width: 0;
+  flex: 1 1 0%;
+  padding: 0.09375rem 0.5rem 0.0625rem;
+  border-radius: 4px;
+  background: var(--zestro-orange-200, #fff1e9);
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.stepItem:hover {
+  transform: translateY(-0.125px);
+  box-shadow: 0 0.5px 2px rgba(255, 122, 61, 0.15);
+}
+
+.stepTitle {
+  font-size: 0.375rem;
+  font-weight: 600;
+  color: var(--zestro-orange-700, #ff5a1a);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.stepActive {
+  background: var(--zestro-orange-600, #ff7a3d);
+  border-color: var(--zestro-orange-700, #ff5a1a);
+  box-shadow: 0 0.25px 1px rgba(255, 122, 61, 0.18);
+  transform: translateY(-0.125px);
+}
+
+.stepActive .stepNumber {
+  background: white;
+  color: var(--zestro-orange-700, #ff5a1a);
+  box-shadow: 0 0.15px 0.6px rgba(255, 122, 61, 0.28);
+}
+
+.stepActive .stepTitle {
+  color: white;
+  font-weight: 700;
+}
+
+.stepCompleted {
+  background: var(--accent-color, #10b981);
+  border-color: var(--accent-color, #10b981);
+}
+
+.stepCompleted .stepNumber {
+  background: white;
+  color: var(--accent-color, #10b981);
+}
+
+.stepCompleted .stepTitle {
+  color: white;
+  font-weight: 600;
+}
+
+/* =========================================
+   10. MODAL FOOTER
+   ========================================= */
+
+.modalFooter {
+  margin-top: auto;
+  background: white;
+  border-top: 1px solid #e5e7eb;
+  padding: 1rem 2rem;
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+}
+
+.footerButtons {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  gap: 1rem;
+  box-sizing: border-box;
+}
+
+.footerButtons .btnPrimary,
+.footerButtons .btnOutline {
+  min-width: 120px;
+  flex-shrink: 1;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.95rem;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.footerSpacer {
+  flex: 1;
+}
+
+/* =========================================
+   11. STEP NAVIGATION
+   ========================================= */
+
+.stepFooter {
+  padding: 0.75rem 2rem;
+  background: var(--background-light, #f8fafc);
+}
+
+.stepNavigation {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.stepButtons {
+  display: flex;
+  gap: 1rem;
+}
+
+.cancelSection {
+  text-align: center;
+}
+
+/* =========================================
+   12. COUNTRY SELECTION
+   ========================================= */
+
+.countrySelection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem 1rem;
+}
+
+.countryTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--zestro-orange-800, #374151);
+  margin: 0;
+  text-align: center;
+}
+
+.countrySubtitle {
+  font-size: 1rem;
+  color: #6b7280;
+  margin: 0;
+  text-align: center;
+  max-width: 400px;
+}
+
+.countryGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 400px;
+}
+
+.countryCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem 1.5rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.countryCard:hover {
+  border-color: var(--zestro-orange-300, #fdba74);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 122, 61, 0.15);
+}
+
+.countryCardSelected {
+  border-color: var(--zestro-orange-500, #f97316);
+  background: var(--zestro-orange-50, #fff7ed);
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2);
+}
+
+.countryFlag {
+  font-size: 3rem;
+  line-height: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flagImage {
+  border-radius: 4px;
+  object-fit: cover;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.countryName {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--zestro-orange-800, #374151);
+}
+
+.countryCardSelected .countryName {
+  color: var(--zestro-orange-700, #ff5a1a);
+}
+
+/* =========================================
+   13. ANIMATIONS & EFFECTS
+   ========================================= */
+
+/* Animation for modal appearance */
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Custom scrollbar for webkit browsers */
+.content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.content::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 3px;
+}
+
+.content::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.content::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* =========================================
+   14. RESPONSIVE DESIGN
+   ========================================= */
+
+/* Responsive Design */
+@media (min-width: 640px) {
+  .fieldGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* fieldGridSingle always stays single column */
+  .fieldGridSingle {
+    grid-template-columns: 1fr;
+  }
+
+  .checkboxGroup {
+    flex-direction: row;
+    gap: 2rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .dialog {
+    position: relative;
+    width: 90vw;
+    max-width: 800px;
+    height: auto;
+    max-height: 90vh;
+    border-radius: 16px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    animation: modalSlideIn 0.2s ease-out;
+  }
+
+  .content {
+    padding: 0 2.5rem 2.5rem 2.5rem;
+    overflow-y: auto;
+    max-height: 85vh;
+  }
+
+  .backdrop {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+  }
+
+  .closeBtn {
+    top: 1rem;
+    right: 1rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .content {
+    padding: 0 3rem 3rem 3rem;
+  }
+
+  .row {
+    justify-content: space-between;
+  }
+}
+
+/* Focus visible styles for better accessibility */
+.input:focus-visible,
+.select:focus-visible,
+.textarea:focus-visible,
+.checkbox:focus-visible,
+.btnPrimary:focus-visible,
+.btnOutline:focus-visible,
+.closeBtn:focus-visible {
+  outline: 2px solid var(--zestro-orange-500, #f97316);
+  outline-offset: 2px;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 640px) {
+  .content {
+    padding: 0 1.5rem 1.5rem 1.5rem;
+    padding-left: max(1.5rem, env(safe-area-inset-left));
+    padding-right: max(1.5rem, env(safe-area-inset-right));
+  }
+
+  .footerButtons {
+    gap: 0.75rem;
+    max-width: 100%;
+  }
+
+  .footerButtons .btnPrimary,
+  .footerButtons .btnOutline {
+    min-width: 100px;
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) and (min-width: 361px) {
+  .footerButtons {
+    gap: 0.5rem;
+  }
+
+  .footerButtons .btnPrimary,
+  .footerButtons .btnOutline {
+    min-width: 60px;
+    max-width: calc(50% - 0.25rem);
+    padding: 0.5rem 0.5rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .content {
+    padding: 0 1rem 1rem 1rem;
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+
+  .stepContent {
+    padding: 0.25rem 0.5rem 0rem 0.5rem;
+  }
+
+  .footerButtons {
+    gap: 0.5rem;
+    flex-direction: column;
+  }
+
+  .footerButtons .btnPrimary,
+  .footerButtons .btnOutline {
+    width: 100%;
+    min-width: unset;
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .footerSpacer {
+    display: none;
+  }
+}
+
+@media (max-width: 320px) {
+  .footerButtons .btnPrimary,
+  .footerButtons .btnOutline {
+    padding: 0.6rem 0.75rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* Mobile responsive adjustments for step indicators */
+@media (max-width: 768px) {
+  .stepIndicator {
+    padding: 0.5rem 0.5rem 0.5rem;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .stepItem {
+    min-width: 90px;
+    padding: 0.375rem 0.25rem 0.25rem;
+    gap: 0.125rem;
+  }
+
+  .stepNumber {
+    width: 20px;
+    height: 20px;
+    font-size: 0.625rem;
+  }
+
+  .stepTitle {
+    font-size: 0.625rem;
+    line-height: 1.1;
+  }
+
+  .stepContent {
+    padding: 0.75rem;
+  }
+
+  .stepFooter {
+    padding: 0.75rem 1rem;
+  }
+
+  .stepButtons {
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  .btnOutline,
+  .btnPrimary {
+    width: 100%;
+  }
+}
+
+/* Country selection responsive styles */
+@media (max-width: 640px) {
+  .countryGrid {
+    grid-template-columns: 1fr;
+    max-width: 300px;
+  }
+
+  .countryCard {
+    padding: 1.5rem 1rem;
+  }
+
+  .countryFlag {
+    font-size: 2.5rem;
+  }
+}

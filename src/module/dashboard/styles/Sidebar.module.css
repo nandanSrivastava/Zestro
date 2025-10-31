@@ -1,0 +1,293 @@
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  /* Use solid zestro-orange-700 for sidebar background */
+  background: rgba(var(--zestro-orange-700-rgb), 0.5);
+  /* Ensure default text color inside sidebar is black */
+  /* Inactive items should be light to sit on the orange background */
+  color: rgba(255, 255, 255, 0.85);
+  /* border-right: 1px solid rgba(var(--zestro-orange-600-rgb), 0.12); */
+  display: flex;
+  flex-direction: column;
+  width: 260px;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+
+.sidebar.collapsed {
+  width: 72px;
+}
+
+/* Header */
+.sidebarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  min-height: 72px;
+}
+
+.logoContainer {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.logoText {
+  font-size: 1.5rem;
+  font-weight: 700;
+  /* Use solid black for logo text on the orange sidebar */
+  background: none;
+  color: #000;
+}
+
+.logoImage {
+  display: block;
+  width: 120px;
+  height: auto;
+  object-fit: contain;
+}
+
+.logoCollapsed {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(
+    135deg,
+    var(--zestro-orange-700),
+    var(--zestro-orange-600)
+  );
+  border-radius: var(--radius-lg);
+}
+
+.logoIcon {
+  color: #000;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.toggleButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  color: #000;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.toggleButton:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #000;
+}
+
+.toggleButton:active {
+  transform: scale(0.95);
+}
+
+/* Navigation */
+.navigation {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.navList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.navItem {
+  padding: 0 0.75rem;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  color: var(--zestro-orange-900);
+  text-decoration: none;
+  border-radius: var(--radius-lg);
+  transition: all 0.2s ease;
+  position: relative;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.navLink:hover {
+  /* Darker hover: subtle black overlay to increase contrast on orange */
+  background: rgba(0, 0, 0, 0.08);
+  color: var(--zestro-orange-900);
+}
+
+.navLink.active {
+  background: rgba(255, 255, 255, 0.16);
+  color: #000; /* active label remains black for emphasis */
+  font-weight: 700;
+}
+
+.navIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+}
+
+/* Ensure inline SVG icons inherit text color (black) */
+.navIcon svg,
+.logoIcon svg {
+  fill: currentColor;
+  stroke: currentColor;
+  color: inherit;
+}
+
+.navLabel {
+  flex: 1;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
+.sidebar.collapsed .navLabel {
+  opacity: 0;
+  width: 0;
+  display: none;
+}
+
+.activeIndicator {
+  position: absolute;
+  right: 0.5rem;
+  width: 4px;
+  height: 20px;
+  background: #ffffff; /* active indicator should be visible on orange */
+  border-radius: 2px;
+  opacity: 1;
+}
+
+.sidebar.collapsed .activeIndicator {
+  right: 0.25rem;
+}
+
+/* Bottom Navigation */
+.bottomNav {
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* Collapsed State Adjustments */
+.sidebar.collapsed .navLink {
+  justify-content: center;
+  padding: 0.75rem;
+}
+
+.sidebar.collapsed .sidebarHeader {
+  justify-content: center;
+  padding: 1.25rem 0.5rem;
+}
+
+.sidebar.collapsed .toggleButton {
+  position: absolute;
+  right: -12px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  box-shadow: var(--shadow-sm);
+}
+
+.sidebar.collapsed .toggleButton:hover {
+  background: rgba(var(--zestro-orange-700-rgb), 0.1);
+  border-color: var(--zestro-orange-700);
+}
+
+/* Scrollbar Styling */
+.navigation::-webkit-scrollbar {
+  width: 4px;
+}
+
+.navigation::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.navigation::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 2px;
+}
+
+.navigation::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* Tooltip for collapsed state */
+.sidebar.collapsed .navLink {
+  position: relative;
+}
+
+.sidebar.collapsed .navLink::after {
+  content: attr(title);
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 1rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--text-primary);
+  color: white;
+  font-size: var(--text-xs);
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 1000;
+  box-shadow: var(--shadow-md);
+}
+
+.sidebar.collapsed .navLink:hover::after {
+  opacity: 1;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 72px;
+  }
+
+  .sidebar.collapsed {
+    width: 0;
+    border-right: none;
+  }
+
+  .toggleButton {
+    display: none;
+  }
+}
